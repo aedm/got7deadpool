@@ -1,0 +1,8 @@
+.git
+.gitignore
+.idea
+.meteor/local
+node_modules
+packages/*/.build*
+packages/*/.npm*
+README.md
