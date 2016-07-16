@@ -1,6 +1,6 @@
-import { FlowRouter } from 'meteor/meteorhacks:flow-router';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import 'TodoApp/client';
+import 'app/client/index.jsx';
 
 Meteor.startup(function() {
   FlowRouter.initialize();
