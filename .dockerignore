@@ -2,6 +2,7 @@
 .gitignore
 .idea
 .meteor/local
+.meteor/dev-bundle
 node_modules
 packages/*/.build*
 packages/*/.npm*
