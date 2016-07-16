@@ -1,5 +1,5 @@
 meteor_tests:
-  image: debian:latest
+  image: ubuntu:latest
   stage: test
   script:
   - apt-get update
