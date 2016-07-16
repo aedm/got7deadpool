@@ -1,0 +1,20 @@
+meteor_tests:
+  image: tozd/meteor
+  stage: test
+  script:
+  - meteor npm install
+  - meteor test --once --driver-package=dispatch:mocha-phantomjs
+
+
+build_docker_image:
+  image: gitlab/dind:latest
+  stage: build
+  script:
+  - docker info
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+  - docker build -t registry.gitlab.com/aedm/gitlab-test .
+  - docker run registry.gitlab.com/aedm/gitlab-test
+  - docker push registry.gitlab.com/aedm/gitlab-test
+  only:
+  - docker
+
