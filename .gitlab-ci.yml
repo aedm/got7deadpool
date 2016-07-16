@@ -3,7 +3,7 @@ meteor_tests:
   stage: test
   script:
   - apt-get update
-  - apt-get install curl
+  - apt-get -y install curl
   - curl https://install.meteor.com/ | sh
   - meteor npm install
   - meteor test --once --driver-package=dispatch:mocha-phantomjs
