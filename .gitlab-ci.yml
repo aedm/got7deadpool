@@ -1,7 +1,9 @@
 meteor_tests:
-  image: tozd/meteor
+  image: debian:latest
   stage: test
   script:
+  - apt-get install curl
+  - curl https://install.meteor.com/ | sh
   - meteor npm install
   - meteor test --once --driver-package=dispatch:mocha-phantomjs
 
