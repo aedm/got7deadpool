@@ -1,8 +1,8 @@
 import React from 'react';
 import {Jumbotron, Button} from 'react-bootstrap';
 
-import {VoteTable} from 'app/client/components/vote-table.jsx';
-import {Bets} from 'app/game/bets.js';
+import {VoteTable} from '/src/client/components/vote-table.jsx';
+import {Bets} from '/src/game/bets.js';
 
 export class AppMain extends React.Component {
   constructor() {

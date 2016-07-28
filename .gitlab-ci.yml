@@ -8,7 +8,7 @@ meteor_tests:
   - localedef -i en_GB -f UTF-8 en_US.UTF-8
   - curl https://install.meteor.com/ | sh
   - meteor npm install
-  - meteor test --once --driver-package=dispatch:mocha-phantomjs
+  - meteor npm run-script test
 
 
 build_docker_image:
