@@ -9,6 +9,7 @@ meteor_tests:
   - curl https://install.meteor.com/ | sh
   - meteor npm install
   - meteor npm run-script test
+  - meteor npm run-script test-full
 
 
 build_docker_image:

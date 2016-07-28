@@ -16,7 +16,8 @@
   "devDependencies": {
   },
   "scripts": {
-    "test": "meteor test --once --full-app --driver-package dispatch:mocha-phantomjs --port 3200",
+    "test": "meteor test --once --driver-package dispatch:mocha-phantomjs --port 3200",
+    "test-full": "meteor test --once --full-app --driver-package dispatch:mocha-phantomjs --port 3200",
     "test:watch": "meteor test --driver-package practicalmeteor:mocha --port 3100"
   }
 }
