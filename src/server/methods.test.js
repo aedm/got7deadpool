@@ -1,42 +1,69 @@
 import {Meteor} from 'meteor/meteor';
-import {Mongo} from 'meteor/mongo';
-import {chai} from 'meteor/practicalmeteor:chai';
+import {assert} from 'meteor/practicalmeteor:chai';
 import {stubs} from 'meteor/practicalmeteor:sinon';
 import {resetDatabase} from 'meteor/xolvio:cleaner';
 
-// Dummy collection
-const TestCollection = new Mongo.Collection("test");
-
-// Dummy method to test
-Meteor.methods({
-  "test/dummy-method": function(value) {
-    TestCollection.upsert(Meteor.userId(), {value});
-  }
-});
+import '/src/methods.js';
+import {Players} from '/src/collections/players.js';
 
 // Dummy test suite
-describe('dummy server test suite', function () {
+describe('placing bets', function () {
   let fakeUser = {
     _id: "rdash",
-    username: "Rainbow Dash",
+    profile: {
+      name: "Rainbow Dash",
+      photo: "nope",
+    },
   };
 
   beforeEach(function () {
     resetDatabase();
     stubs.create('fakeUserId', Meteor, 'userId').returns(fakeUser._id);
     stubs.create('fakeUser', Meteor, 'user').returns(fakeUser);
+
+    Players.insert({
+      _id: fakeUser._id,
+      profile: fakeUser.profile,
+      votes: [],
+      scores: [],
+    });
+
   });
 
   afterEach(function () {
     stubs.restoreAll();
   });
 
-  // Tests a database insertion
-  it('dummy method test', function () {
-    Meteor.call("test/dummy-method", "applejack");
-    let doc = TestCollection.findOne(fakeUser._id);
-    chai.assert.isDefined(doc);
-    chai.assert.equal(doc.value, "applejack");
+  it('registers a positive vote', function () {
+    Meteor.call("player/bet", "cersei", true);
+
+    let doc = Players.findOne(fakeUser._id);
+    assert.sameMembers(doc.votes, ["cersei"]);
+  });
+
+  it('undoes a positive vote', function () {
+    Meteor.call("player/bet", "cersei", true);
+    Meteor.call("player/bet", "cersei", false);
+
+    let doc = Players.findOne(fakeUser._id);
+    assert.sameMembers(doc.votes, []);
+  });
+
+  it('registers a negative vote', function () {
+    Meteor.call("player/bet", "cersei", false);
+
+    let doc = Players.findOne(fakeUser._id);
+    assert.sameMembers(doc.votes, []);
+  });
+
+  it('registers several votes', function () {
+    Meteor.call("player/bet", "cersei", true);
+    Meteor.call("player/bet", "jaime", true);
+    Meteor.call("player/bet", "tyrion", true);
+    Meteor.call("player/bet", "jaime", false);
+
+    let doc = Players.findOne(fakeUser._id);
+    assert.sameMembers(doc.votes, ["cersei", "tyrion"]);
   });
 });
 

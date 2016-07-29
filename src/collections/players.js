@@ -5,6 +5,7 @@ import 'meteor/aldeed:collection2';
 export const Players = new Mongo.Collection("players");
 
 // Data schema for the "Players" collection.
+// '_id' the same as 'user._id'.
 Players.attachSchema(new SimpleSchema({
   "profile": {
     type: Object,
@@ -23,14 +24,12 @@ Players.attachSchema(new SimpleSchema({
     label: "Photo",
   },
 
-
   // Votes
   "votes": {
-    type: [Object],
+    type: [String],
     optional: true,
     blackbox: true,
   },
-
 
   // Scores
   "scores": {

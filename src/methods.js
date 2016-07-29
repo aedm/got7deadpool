@@ -1,14 +1,33 @@
-import { Meteor } from "meteor/meteor";
+import {Meteor} from "meteor/meteor";
+import {check} from 'meteor/check';
 
-import { Players } from 'app/collections/players.js';
+import {Players} from '/src/collections/players.js';
 
 
 Meteor.methods({
-  "player-bet": function(betToken, bet) {
-    check(betToken, string);
-    check(bet, boolean);
-    if (!this.userId()) throw new Meteor.Error("must log in");
+  /**
+   * Places a bet on a certain `betToken` character or event.
+   *
+   *   Meteor.call("player/bet", "cersei", true);
+   *
+   * @param {String} betToken
+   * @param {Boolean} bet
+   */
+  "player/bet": function (betToken, bet) {
+    if (!Meteor.userId()) throw new Meteor.Error("must log in");
+    check(betToken, String);
+    check(bet, Boolean);
 
-    Players.update({userId: this.userId()}, {$set: {[betToken]: bet}});
-  }
+    if (bet) {
+      Players.update(
+          Meteor.userId(),
+          {$addToSet: {votes: betToken}},
+          {filter: false});
+    } else {
+      Players.update(
+          Meteor.userId(),
+          {$pull: {votes: betToken}},
+          {filter: false});
+    }
+  },
 });

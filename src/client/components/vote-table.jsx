@@ -1,27 +1,21 @@
 import React from 'react';
+import {createContainer} from 'meteor/react-meteor-data';
 import {Table, Checkbox} from 'react-bootstrap';
 
-import {Bets} from 'app/game/bets.js';
+import {Bets} from '/src/game/bets.js';
 
 
-export class VoteTable extends React.Component {
-  static propTypes = {
-    userId: React.PropTypes.string,
-    players: React.PropTypes.arrayOf(React.PropTypes.shape({
-      name: React.PropTypes.string,
-      votes: React.PropTypes.object,
-    })),
-  };
-
+class _VoteTable extends React.Component {
   render() {
+    let isLoggedIn = !!this.props.user;
     return <div className="container">
       <Table bordered condensed hover style={{width: "auto"}}>
         <thead>
         <tr>
           <th>#votes</th>
           <th>Name</th>
-          <th>You</th>
-          { this.props.players.map(player => <th>{player.name}</th>) }
+          { isLoggedIn ? <th>You</th> : null }
+          { this.props.players.map(player => <th key={player.name}>{player.name}</th>) }
         </tr>
         </thead>
         <tbody>
@@ -30,8 +24,8 @@ export class VoteTable extends React.Component {
           return <tr key={key}>
             <td>{key}</td>
             <td>{bet.name}</td>
-            <td><Checkbox /></td>
-            { this.props.players.map(player => <td>
+            { isLoggedIn ? <td><Checkbox /></td> : null }
+            { this.props.players.map(player => <td key={player.name}>
               <Checkbox disabled checked={player.votes[key]}/>
             </td>)}
           </tr>;
@@ -42,3 +36,16 @@ export class VoteTable extends React.Component {
   }
 }
 
+_VoteTable.propTypes = {
+  userId: React.PropTypes.string,
+  players: React.PropTypes.arrayOf(React.PropTypes.shape({
+    name: React.PropTypes.string,
+    votes: React.PropTypes.object,
+  })),
+};
+
+export const VoteTable = createContainer(() => {
+  return {
+    user: Meteor.user(),
+  };
+}, _VoteTable);
