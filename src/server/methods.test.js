@@ -24,6 +24,7 @@ describe('placing bets', function () {
     Players.insert({
       _id: fakeUser._id,
       profile: fakeUser.profile,
+      registrationTime: new Date(),
       votes: [],
       scores: [],
     });

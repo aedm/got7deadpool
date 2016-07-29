@@ -24,6 +24,12 @@ Players.attachSchema(new SimpleSchema({
     label: "Photo",
   },
 
+  // Time of registration
+  "registrationTime": {
+    type: Date,
+    label: "Time of registration",
+  },
+
   // Votes
   "votes": {
     type: [String],

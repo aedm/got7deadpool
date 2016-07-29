@@ -49,7 +49,7 @@ export class _GamePage extends React.Component {
   render() {
     return <div className="container">
       { this.renderLoginButton() }
-      <VoteTable players={this.players}/>;
+      <VoteTable players={this.players}/>
     </div>;
   }
 }
