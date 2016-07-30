@@ -11,13 +11,10 @@ export class App extends React.Component {
 
   render() {
     return <div>
-      <Jumbotron style={{display: "none"}}>
+      <Jumbotron style={{display: ""}}>
         <div className="container">
           <h2>Game of Thrones Season 7 Death Lottery</h2>
-          <p>This is a simple hero unit, a simple jumbotron-style component for calling extra
-            attention to featured
-            content or information.</p>
-          <p><Button bsStyle="primary">Learn more</Button></p>
+          <p>This is non-public and pre-alpha. Database will be wiped like the Baratheons. Don't get attached.</p>
         </div>
       </Jumbotron>
 

@@ -15,10 +15,10 @@ class _VoteTable extends React.Component {
   renderBetArray(array) {
     let isLoggedIn = !!this.props.user;
     return <div>
-      <Table bordered condensed hover style={{width: "auto"}}>
+      <Table striped bordered condensed hover style={{width: "auto"}}>
         <thead>
         <tr>
-          <th>Name</th>
+          <th className="votetable-name"></th>
           { isLoggedIn ? <th>You</th> : null }
           { this.props.players.map(player => <th key={player._id}>{player.profile.name}</th>) }
         </tr>
@@ -26,7 +26,7 @@ class _VoteTable extends React.Component {
         <tbody>
         { array.map(bet => {
           return <tr key={bet.token}>
-            <td>{bet.name}</td>
+            <td className="votetable-name">{bet.name}</td>
             { this.props.currentPlayer ? <td>
               <Checkbox checked={_.contains(this.props.currentPlayer.votes, bet.token)}
                         onChange={() => this.handleToggle(bet.token)}/>
@@ -43,13 +43,13 @@ class _VoteTable extends React.Component {
 
   render() {
     return <div>
-      <h1>3-point characters</h1>
+      <h2>3-point characters</h2>
       { this.renderBetArray(ThreePointCharacters)}
-      <h1>2-point characters</h1>
+      <h2>2-point characters</h2>
       { this.renderBetArray(TwoPointCharacters)}
-      <h1>1-point characters</h1>
+      <h2>1-point characters</h2>
       { this.renderBetArray(OnePointCharacters)}
-      <h1>2-point events</h1>
+      <h2>2-point events</h2>
       { this.renderBetArray(TwoPointEvents)}
     </div>;
   }

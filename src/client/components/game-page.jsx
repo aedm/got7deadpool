@@ -34,15 +34,13 @@ export class _GamePage extends React.Component {
 
   renderLoginButton() {
     if (this.props.user) {
-      return <Panel>
-        <Button onClick={() => Meteor.logout()}>Log out "{this.props.user.username}"</Button>
-      </Panel>
+      return <Button bsStyle="primary" onClick={() => Meteor.logout()}>
+        Log out "{this.props.user.username}"
+      </Button>
     } else {
-      return <Panel>
-        <form onSubmit={this.handleLogin.bind(this)}>
-            <FormControl ref="username" type="text" placeholder="username"/>
-        </form>
-      </Panel>;
+      return <form onSubmit={this.handleLogin.bind(this)}>
+        <FormControl ref="username" type="text" placeholder="login with username"/>
+      </form>;
     }
   }
 

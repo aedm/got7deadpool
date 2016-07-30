@@ -26,7 +26,6 @@ blaze-html-templates@1.0.4
 accounts-password@1.2.12
 
 ## Style
-twbs:bootstrap
 
 ## Testing
 dispatch:mocha-phantomjs
@@ -37,3 +36,5 @@ xolvio:cleaner
 
 ## Others
 ecmascript
+huttonr:bootstrap3
+less

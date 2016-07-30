@@ -1,11 +1,41 @@
-$votetable-name-cell-width: 250px;
+@votetable-name-cell-width: 200px;
+@checkbox-size: 16px;
 
 div.checkbox {
   margin: 0;
+  line-height: 0;
 }
 
 .votetable-name {
-  width: $votetable-name-cell-width;
-  min-width: $votetable-name-cell-width;
-  max-width: $votetable-name-cell-width;
+  width: @votetable-name-cell-width;
+  min-width: @votetable-name-cell-width;
+  max-width: @votetable-name-cell-width;
+  text-align: left;
 }
+
+td {
+  text-align: center;
+  vertical-align: middle !important;
+  min-width: 30px;
+
+  label {
+    padding: 0 !important;
+
+    input[type="checkbox"] {
+      margin-left: 0 !important;
+      position: relative !important;
+      width: @checkbox-size !important;
+      height: @checkbox-size !important;
+
+      &[disabled] {
+        cursor: auto;
+        display: none;
+
+        &:checked {
+          display: inherit;
+        }
+      }
+    }
+  }
+}
+
