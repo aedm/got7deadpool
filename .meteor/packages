@@ -35,6 +35,6 @@ practicalmeteor:sinon
 xolvio:cleaner
 
 ## Others
-ecmascript
+ecmascript@0.5.7
 huttonr:bootstrap3
-less
+less@2.7.4

@@ -4,7 +4,7 @@ FROM debian
 # Install Meteor
 RUN apt-get update
 RUN apt-get -y install curl procps python g++ make
-RUN curl https://install.meteor.com/ | sh   # Meteor 1.4
+RUN curl https://install.meteor.com/ | sh   # Meteor 1.4.0.1
 
 ADD . /app
 WORKDIR /app
