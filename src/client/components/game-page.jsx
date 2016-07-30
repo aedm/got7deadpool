@@ -4,7 +4,7 @@ import {createContainer} from 'meteor/react-meteor-data';
 import {Panel, FormControl, FormGroup, Button} from 'react-bootstrap';
 import {Accounts} from 'meteor/accounts-base';
 
-import {VoteTable} from '/src/client/components/vote-table.jsx';
+import {VoteTable} from '/src/client/components/vote-table/vote-table.jsx';
 import {Bets} from '/src/game/bets.js';
 
 

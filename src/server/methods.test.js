@@ -6,7 +6,6 @@ import {resetDatabase} from 'meteor/xolvio:cleaner';
 import '/src/methods.js';
 import {Players} from '/src/collections/players.js';
 
-// Dummy test suite
 describe('placing bets', function () {
   let fakeUser = {
     _id: "rdash",

@@ -327,7 +327,7 @@ export const TwoPointEvents = [
   {
     token: "dragon-ride",
     points: 2,
-    name: "Someone who's not Daenerys rides a dragon",
+    name: "Someone other than Daenerys rides a dragon",
   },
   {
     token: "greyscale-heals",

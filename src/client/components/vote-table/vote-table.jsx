@@ -18,7 +18,6 @@ class _VoteTable extends React.Component {
       <Table bordered condensed hover style={{width: "auto"}}>
         <thead>
         <tr>
-          <th>#votes</th>
           <th>Name</th>
           { isLoggedIn ? <th>You</th> : null }
           { this.props.players.map(player => <th key={player._id}>{player.profile.name}</th>) }
@@ -28,7 +27,6 @@ class _VoteTable extends React.Component {
         { Object.keys(Bets).map(key => {
           let bet = Bets[key];
           return <tr key={key}>
-            <td>{key}</td>
             <td>{bet.name}</td>
             { this.props.currentPlayer ? <td>
               <Checkbox checked={_.contains(this.props.currentPlayer.votes, key)}
