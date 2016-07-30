@@ -4,7 +4,7 @@ import {createContainer} from 'meteor/react-meteor-data';
 import {Table, Checkbox} from 'react-bootstrap';
 
 import {Players} from '/src/collections/players.js';
-import {Bets} from '/src/game/bets.js';
+import {OnePointCharacters, TwoPointCharacters, ThreePointCharacters, TwoPointEvents} from '/src/game/bets.js';
 
 
 class _VoteTable extends React.Component {
@@ -12,7 +12,7 @@ class _VoteTable extends React.Component {
     Meteor.call("player/bet", betToken, !_.contains(this.props.currentPlayer.votes, betToken));
   }
 
-  render() {
+  renderBetArray(array) {
     let isLoggedIn = !!this.props.user;
     return <div>
       <Table bordered condensed hover style={{width: "auto"}}>
@@ -24,21 +24,33 @@ class _VoteTable extends React.Component {
         </tr>
         </thead>
         <tbody>
-        { Object.keys(Bets).map(key => {
-          let bet = Bets[key];
-          return <tr key={key}>
+        { array.map(bet => {
+          return <tr key={bet.token}>
             <td>{bet.name}</td>
             { this.props.currentPlayer ? <td>
-              <Checkbox checked={_.contains(this.props.currentPlayer.votes, key)}
-                        onChange={() => this.handleToggle(key)}/>
+              <Checkbox checked={_.contains(this.props.currentPlayer.votes, bet.token)}
+                        onChange={() => this.handleToggle(bet.token)}/>
             </td> : null }
             { this.props.players.map(player => <td key={player._id}>
-              <Checkbox disabled checked={_.contains(player.votes, key)}/>
+              <Checkbox disabled checked={_.contains(player.votes, bet.token)}/>
             </td>)}
           </tr>
         })}
         </tbody>
       </Table>
+    </div>;
+  }
+
+  render() {
+    return <div>
+      <h1>3-point characters</h1>
+      { this.renderBetArray(ThreePointCharacters)}
+      <h1>2-point characters</h1>
+      { this.renderBetArray(TwoPointCharacters)}
+      <h1>1-point characters</h1>
+      { this.renderBetArray(OnePointCharacters)}
+      <h1>2-point events</h1>
+      { this.renderBetArray(TwoPointEvents)}
     </div>;
   }
 }
