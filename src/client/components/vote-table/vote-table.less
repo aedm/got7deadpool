@@ -1,5 +1,7 @@
 @votetable-name-cell-width: 200px;
-@checkbox-size: 16px;
+@votetable-name-cell-height: 46px;
+@votetable-checkbox-size: 16px;
+@votetable-sum-cell-width: 20px;
 
 div.checkbox {
   margin: 0;
@@ -10,16 +12,23 @@ div.checkbox {
   width: @votetable-name-cell-width;
   min-width: @votetable-name-cell-width;
   max-width: @votetable-name-cell-width;
+
+  min-height: @votetable-name-cell-height;
+  height: @votetable-name-cell-height;
+
   text-align: left;
+  padding: 2px 7px !important;
 }
 
 .votetable-count {
-  display: inline-block;
-  width: 30px;
-  border-right: 1px solid #bbb;
-  margin-right: 6px;
   text-align: right;
-  padding-right: 6px;
+  min-width: @votetable-sum-cell-width;
+}
+
+.votetable-count-header {
+  text-align: center;
+  font-weight: 100;
+  min-width: @votetable-sum-cell-width;
 }
 
 td {
@@ -33,8 +42,8 @@ td {
     input[type="checkbox"] {
       margin-left: 0 !important;
       position: relative !important;
-      width: @checkbox-size !important;
-      height: @checkbox-size !important;
+      width: @votetable-checkbox-size !important;
+      height: @votetable-checkbox-size !important;
 
       &[disabled] {
         cursor: auto;
