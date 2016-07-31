@@ -18,9 +18,9 @@ build_docker_image:
   script:
   - docker info
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-  - docker build -t registry.gitlab.com/aedm/gitlab-test .
-  - docker run registry.gitlab.com/aedm/gitlab-test
-  - docker push registry.gitlab.com/aedm/gitlab-test
+  - docker build -t registry.gitlab.com/aedm/got7-death-pool .
+  - docker run registry.gitlab.com/aedm/got7-death-pool
+  - docker push registry.gitlab.com/aedm/got7-death-pool
   only:
   - docker
 

@@ -12,7 +12,7 @@ export const ThreePointCharacters = [
   {
     token: "jaime",
     points: 3,
-    name: "JaimeLannister",
+    name: "Jaime Lannister",
   },
   {
     token: "jonsnow",

@@ -1,6 +1,7 @@
 import {Meteor} from "meteor/meteor";
 import {check} from 'meteor/check';
 
+import {Configuration} from '/src/collections/configuration.js';
 import {Players} from '/src/collections/players.js';
 
 
@@ -29,5 +30,6 @@ Meteor.methods({
           {$pull: {votes: betToken}},
           {filter: false});
     }
+    Configuration.update("votecount", {$inc: {[betToken]: bet ? 1 : -1}});
   },
 });

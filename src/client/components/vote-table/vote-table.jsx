@@ -5,6 +5,7 @@ import {Table, Checkbox} from 'react-bootstrap';
 
 import {Players} from '/src/collections/players.js';
 import {OnePointCharacters, TwoPointCharacters, ThreePointCharacters, TwoPointEvents} from '/src/game/bets.js';
+import {Configuration} from '/src/collections/configuration.js';
 
 
 class _VoteTable extends React.Component {
@@ -18,7 +19,7 @@ class _VoteTable extends React.Component {
       <Table striped bordered condensed hover style={{width: "auto"}}>
         <thead>
         <tr>
-          <th className="votetable-name"></th>
+          <th className="votetable-name" />
           { isLoggedIn ? <th>You</th> : null }
           { this.props.players.map(player => <th key={player._id}>{player.profile.name}</th>) }
         </tr>
@@ -26,7 +27,12 @@ class _VoteTable extends React.Component {
         <tbody>
         { array.map(bet => {
           return <tr key={bet.token}>
-            <td className="votetable-name">{bet.name}</td>
+            <td className="votetable-name">
+              <div className="votetable-count">
+                { this.props.voteCounts ? this.props.voteCounts[bet.token] : null }
+              </div>
+              {bet.name}
+            </td>
             { this.props.currentPlayer ? <td>
               <Checkbox checked={_.contains(this.props.currentPlayer.votes, bet.token)}
                         onChange={() => this.handleToggle(bet.token)}/>
@@ -69,5 +75,6 @@ export const VoteTable = createContainer(() => {
     user: Meteor.user(),
     players: Players.find(playerSelector, {sort: {registrationTime: -1}}).fetch(),
     currentPlayer: userId ? Players.findOne(userId) : null,
+    voteCounts: Configuration.findOne("votecount"),
   };
 }, _VoteTable);
