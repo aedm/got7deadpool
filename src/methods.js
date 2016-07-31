@@ -20,16 +20,27 @@ Meteor.methods({
     check(bet, Boolean);
 
     if (bet) {
-      Players.update(
-          Meteor.userId(),
+      let affectedCount = Players.update(
+          {
+            _id: Meteor.userId(),
+            votes: { $ne: betToken},
+          },
           {$addToSet: {votes: betToken}},
           {filter: false});
+      if (affectedCount) {
+        Configuration.update("votecount", {$inc: {[betToken]: 1}});
+      }
     } else {
-      Players.update(
-          Meteor.userId(),
+      let affectedCount = Players.update(
+          {
+            _id: Meteor.userId(),
+            votes: betToken,
+          },
           {$pull: {votes: betToken}},
           {filter: false});
+      if (affectedCount) {
+        Configuration.update("votecount", {$inc: {[betToken]: -1}});
+      }
     }
-    Configuration.update("votecount", {$inc: {[betToken]: bet ? 1 : -1}});
   },
 });

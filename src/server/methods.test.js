@@ -5,6 +5,7 @@ import {resetDatabase} from 'meteor/xolvio:cleaner';
 
 import '/src/methods.js';
 import {Players} from '/src/collections/players.js';
+import {Configuration} from '/src/collections/configuration.js';
 
 describe('placing bets', function () {
   let fakeUser = {
@@ -64,6 +65,23 @@ describe('placing bets', function () {
 
     let doc = Players.findOne(fakeUser._id);
     assert.sameMembers(doc.votes, ["cersei", "tyrion"]);
+  });
+
+  it('can summarize votes', function () {
+    Configuration.insert({_id: "votecount", "cersei": 0});
+    for (let i=0; i<10; i++) {
+      Meteor.call("player/bet", "cersei", true);
+      Meteor.call("player/bet", "cersei", true);
+      Meteor.call("player/bet", "cersei", false);
+      Meteor.call("player/bet", "cersei", false);
+      Meteor.call("player/bet", "cersei", false);
+    }
+    Meteor.call("player/bet", "cersei", true);
+
+    let doc = Players.findOne(fakeUser._id);
+    assert.sameMembers(doc.votes, ["cersei"]);
+    let votecount = Configuration.findOne("votecount");
+    assert.equal(votecount["cersei"], 1);
   });
 });
 
