@@ -1,7 +1,7 @@
 import {Meteor} from "meteor/meteor";
 import {check} from 'meteor/check';
 
-import {Configuration} from '/src/collections/configuration.js';
+import {AppState} from '/src/collections/app-state.js';
 import {Players} from '/src/collections/players.js';
 
 
@@ -28,7 +28,7 @@ Meteor.methods({
           {$addToSet: {votes: betToken}},
           {filter: false});
       if (affectedCount) {
-        Configuration.update("votecount", {$inc: {[betToken]: 1}});
+        AppState.update("votecount", {$inc: {[betToken]: 1}});
       }
     } else {
       let affectedCount = Players.update(
@@ -39,7 +39,7 @@ Meteor.methods({
           {$pull: {votes: betToken}},
           {filter: false});
       if (affectedCount) {
-        Configuration.update("votecount", {$inc: {[betToken]: -1}});
+        AppState.update("votecount", {$inc: {[betToken]: -1}});
       }
     }
   },

@@ -1,9 +1,9 @@
-import {Configuration} from '/src/collections/configuration.js';
+import {AppState} from '/src/collections/app-state.js';
 import {Bets} from '/src/game/bets.js';
 
 Meteor.startup(function () {
   // Inserts configuration objects if they don't exist yet
-  Configuration.upsert("gameprogress",
+  AppState.upsert("gameprogress",
       {
         $setOnInsert: {
           // Game progress. Shows the current episode.
@@ -12,7 +12,7 @@ Meteor.startup(function () {
       }
   );
 
-  Configuration.upsert("deathlist",
+  AppState.upsert("deathlist",
       {
         $setOnInsert: {
           // List of dead characters and occurred events by episode
@@ -25,7 +25,7 @@ Meteor.startup(function () {
   // TODO: use _.mapObject instead once Meteor's "underscore" package gets updated
   let defaultDeaths = {};
   _.keys(Bets).forEach(key => defaultDeaths[key] = 0);
-  Configuration.upsert("votecount",
+  AppState.upsert("votecount",
       {
         // List of dead characters and occurred events by episode
         // array of {deaths: {token: Boolean}}

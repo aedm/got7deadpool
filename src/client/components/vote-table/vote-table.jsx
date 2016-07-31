@@ -10,7 +10,7 @@ import {
     ThreePointCharacters,
     TwoPointEvents
 } from '/src/game/bets.js';
-import {Configuration} from '/src/collections/configuration.js';
+import {AppState} from '/src/collections/app-state.js';
 
 
 class _VoteTable extends React.Component {
@@ -94,7 +94,7 @@ export const VoteTable = createContainer(() => {
   Meteor.subscribe("player/sub/players-latest");
   let userId = Meteor.userId();
   let playerSelector = userId ? {_id: {$ne: userId}} : {};
-  let voteCounts = Configuration.findOne("votecount");
+  let voteCounts = AppState.findOne("votecount");
 
   // Calculate the maximum number of votes
   let maxVoteCount = 1;

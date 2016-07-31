@@ -1,6 +1,6 @@
 import {Meteor} from "meteor/meteor";
 import {Players} from '/src/collections/players.js';
-import {Configuration} from '/src/collections/configuration.js';
+import {AppState} from '/src/collections/app-state.js';
 import {Bets} from '/src/game/bets.js';
 
 
@@ -14,6 +14,6 @@ Meteor.methods({
       player.votes.forEach(token => deathCount[token]++);
     });
 
-    Configuration.update("votecount", deathCount);
+    AppState.update("votecount", deathCount);
   },
 });
