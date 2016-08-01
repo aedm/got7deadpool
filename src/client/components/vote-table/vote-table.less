@@ -1,14 +1,15 @@
-@votetable-name-cell-width: 200px;
-@votetable-name-cell-height: 46px;
+@votetable-name-cell-width: 230px;
+@votetable-name-cell-height: 50px;
 @votetable-checkbox-size: 24px;
 @votetable-sum-cell-width: 20px;
+@avatar-size: 50px;
 
 div.checkbox {
   margin: 0;
   line-height: 0;
 }
 
-.votetable-name {
+.votetable-name-cell {
   width: @votetable-name-cell-width;
   min-width: @votetable-name-cell-width;
   max-width: @votetable-name-cell-width;
@@ -17,7 +18,30 @@ div.checkbox {
   height: @votetable-name-cell-height;
 
   text-align: left;
-  padding: 2px 7px !important;
+  padding: 0 !important;
+
+  .votetable-name-flexhack {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    padding: 2px 0 !important;
+
+    .votetable-name {
+      display: block;
+      flex: 1;
+      padding-left: 7px;
+    }
+
+    .votetable-character-avatar {
+      border-radius: 4px;
+      float: right;
+      display: block;
+      margin: 3px 1px 3px 5px;
+      width: @avatar-size;
+      height: @avatar-size;
+    }
+  }
 }
 
 .votetable-count {
@@ -56,4 +80,11 @@ td {
     }
   }
 }
+
+.votetable-avatar {
+  border-radius: 50px;
+  width: @avatar-size;
+  height: @avatar-size;
+}
+
 

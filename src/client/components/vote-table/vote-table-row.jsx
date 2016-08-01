@@ -62,9 +62,20 @@ export class VoteTableRow extends React.Component {
       </td>;
     }
 
+    let avatar = null;
+    if (this.props.showAvatar) {
+      avatar = <img className="votetable-character-avatar"
+                    src={`/characters/${this.props.bet.token}.jpg`} />
+    }
+
     return <tr key={this.props.token}>
       { voteCell }
-      <td className="votetable-name">{this.props.bet.name}</td>
+      <td className="votetable-name-cell">
+        <div className="votetable-name-flexhack">
+          { avatar }
+          <div className="votetable-name">{this.props.bet.name}</div>
+        </div>
+      </td>
       { playerCell }
       { this.props.votes.map((vote, index) => <td key={index}>
         <Checkbox disabled checked={vote}/>
@@ -91,4 +102,7 @@ VoteTableRow.propTypes = {
 
   // The number of votes on the most popular bet
   maxVoteCount: React.PropTypes.number,
+
+  // Should show avatar
+  showAvatar: React.PropTypes.bool,
 };

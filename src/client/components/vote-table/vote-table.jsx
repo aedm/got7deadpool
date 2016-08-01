@@ -1,7 +1,7 @@
 import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
-import {Table} from 'react-bootstrap';
+import {Table, OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {Players} from '/src/collections/players.js';
 import {
@@ -63,7 +63,7 @@ class _VoteTable extends React.Component {
     return { rows };
   }
 
-  renderBetArray(array) {
+  renderBetArray(array, showAvatar) {
     return <div>
       <Table striped bordered condensed hover style={{width: "auto"}}>
         <thead>
@@ -71,11 +71,18 @@ class _VoteTable extends React.Component {
           <th className="votetable-count-header">sum</th>
           <th className="votetable-name"/>
           { this.props.currentPlayer ? <th>You</th> : null }
-          { this.props.players.map(player => <th key={player._id}>{player.profile.name}</th>) }
+          { this.props.players.map(player => <th key={player._id}>
+              <OverlayTrigger placement="top"
+                              overlay={<Tooltip id="tooltip">{player.profile.name}</Tooltip>}>
+                <img className="votetable-avatar" src="/asset/avatar50px.jpg" />
+              </OverlayTrigger>
+            </th>) }
         </tr>
         </thead>
         <tbody>
-        { array.map(bet => <VoteTableRow key={bet.token} {...this.state.rows[bet.token]}/>) }
+        { array.map(bet =>
+            <VoteTableRow key={bet.token} showAvatar={showAvatar} {...this.state.rows[bet.token]}/>)
+        }
         </tbody>
       </Table>
     </div>;
@@ -84,11 +91,11 @@ class _VoteTable extends React.Component {
   render() {
     return <div>
       <h2>3-point characters</h2>
-      { this.renderBetArray(ThreePointCharacters)}
+      { this.renderBetArray(ThreePointCharacters, true)}
       <h2>2-point characters</h2>
-      { this.renderBetArray(TwoPointCharacters)}
+      { this.renderBetArray(TwoPointCharacters, true)}
       <h2>1-point characters</h2>
-      { this.renderBetArray(OnePointCharacters)}
+      { this.renderBetArray(OnePointCharacters, true)}
       <h2>2-point events</h2>
       { this.renderBetArray(TwoPointEvents)}
     </div>;
