@@ -65,7 +65,7 @@ class _VoteTable extends React.Component {
 
   renderBetArray(array, showAvatar) {
     return <div>
-      <Table striped bordered condensed hover style={{width: "auto"}}>
+      <Table className="votetable" striped bordered condensed hover>
         <thead>
         <tr>
           <th className="votetable-count-header">sum</th>
@@ -89,14 +89,15 @@ class _VoteTable extends React.Component {
   }
 
   render() {
-    return <div>
-      <h2>3-point characters</h2>
+    return <div className="main-app">
+      <h2>Triple score characters</h2>
+      <p>Select those who you think will die in season seven.</p>
       { this.renderBetArray(ThreePointCharacters, true)}
-      <h2>2-point characters</h2>
+      <h2>Double score characters</h2>
       { this.renderBetArray(TwoPointCharacters, true)}
-      <h2>1-point characters</h2>
+      <h2>Other characters</h2>
       { this.renderBetArray(OnePointCharacters, true)}
-      <h2>2-point events</h2>
+      <h2>Double score events</h2>
       { this.renderBetArray(TwoPointEvents)}
     </div>;
   }
