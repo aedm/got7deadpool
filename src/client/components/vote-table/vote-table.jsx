@@ -1,70 +1,81 @@
 import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
-import {Table, Checkbox} from 'react-bootstrap';
+import {Table} from 'react-bootstrap';
 
 import {Players} from '/src/collections/players.js';
 import {
     OnePointCharacters,
     TwoPointCharacters,
     ThreePointCharacters,
-    TwoPointEvents
+    TwoPointEvents,
+    Bets
 } from '/src/game/bets.js';
 import {AppState} from '/src/collections/app-state.js';
-
+import {VoteTableRow} from '/src/client/components/vote-table/vote-table-row.jsx';
 
 class _VoteTable extends React.Component {
-  handleToggle(betToken) {
-    Meteor.call("player/bet", betToken, !_.contains(this.props.currentPlayer.votes, betToken));
+  constructor(props) {
+    super(props);
+
+    this.state = this.processProps(props);
   }
 
-  // Generates background color for the "sum" cell
-  getBackgroundColor(voteCount) {
-    let ratio = voteCount / this.props.maxVoteCount;
-    // 120 is green, 0 is red
-    let hue = 120 * (1-ratio);
-    let saturation = 60 + 30 * ratio;
-    return `hsl(${hue},${saturation}%,90%)`;
+  componentWillReceiveProps(newProps) {
+    this.setState(this.processProps(newProps));
+  }
+
+  processProps(props) {
+    let rows = {};
+    let hasPlayer = !!props.currentPlayer;
+    let playerCount = props.players ? props.players.length : 0;
+
+    let maxVoteCount = 1;
+    if (props.voteCounts) {
+      _.each(props.voteCounts, count => {
+        if (count>maxVoteCount) maxVoteCount = count;
+      });
+    }
+
+    // Create rows with empty data, false everywhere
+    _.each(Bets, bet => {
+      rows[bet.token] = {
+        bet,
+        player: hasPlayer ? { vote: false } : null,
+        votes: _.map(_.range(playerCount), () => false),
+        voteCount: props.voteCounts ? props.voteCounts[bet.token] : -1,
+        maxVoteCount,
+      };
+    });
+
+    // Fill rows with players votes
+    if (hasPlayer) {
+      props.currentPlayer.votes.forEach(token => rows[token].player.vote = true);
+    }
+
+    // Fill in rows with other players votes
+    if (props.players) {
+      props.players.forEach((player, index) => {
+        player.votes.forEach(token => rows[token].votes[index] = true);
+      });
+    }
+
+    return { rows };
   }
 
   renderBetArray(array) {
-    let isLoggedIn = !!this.props.user;
     return <div>
       <Table striped bordered condensed hover style={{width: "auto"}}>
         <thead>
         <tr>
           <th className="votetable-count-header">sum</th>
           <th className="votetable-name"/>
-          { isLoggedIn ? <th>You</th> : null }
+          { this.props.currentPlayer ? <th>You</th> : null }
           { this.props.players.map(player => <th key={player._id}>{player.profile.name}</th>) }
         </tr>
         </thead>
         <tbody>
-        { array.map(bet => {
-
-          let voteCell = null;
-          if (this.props.voteCounts) {
-            let count = this.props.voteCounts[bet.token];
-            let background = this.getBackgroundColor(count);
-            voteCell = <td className="votetable-count" style={{"backgroundColor": background}}>
-              {count}
-            </td>;
-          } else {
-            voteCell = <td className="votetable-count"/>;
-          }
-
-          return <tr key={bet.token}>
-            { voteCell }
-            <td className="votetable-name">{bet.name}</td>
-            { this.props.currentPlayer ? <td>
-              <Checkbox checked={_.contains(this.props.currentPlayer.votes, bet.token)}
-                        onChange={() => this.handleToggle(bet.token)}/>
-            </td> : null }
-            { this.props.players.map(player => <td key={player._id}>
-              <Checkbox disabled checked={_.contains(player.votes, bet.token)}/>
-            </td>)}
-          </tr>
-        })}
+        { array.map(bet => <VoteTableRow key={bet.token} {...this.state.rows[bet.token]}/>) }
         </tbody>
       </Table>
     </div>;
@@ -88,6 +99,7 @@ _VoteTable.propTypes = {
   userId: React.PropTypes.string,
   players: React.PropTypes.array,
   currentPlayer: React.PropTypes.object,
+  voteCounts: React.PropTypes.object,
 };
 
 export const VoteTable = createContainer(() => {
@@ -96,19 +108,10 @@ export const VoteTable = createContainer(() => {
   let playerSelector = userId ? {_id: {$ne: userId}} : {};
   let voteCounts = AppState.findOne("votecount");
 
-  // Calculate the maximum number of votes
-  let maxVoteCount = 1;
-  if (voteCounts) {
-    _.forEach(voteCounts, count => {
-      if (count > maxVoteCount) maxVoteCount = count;
-    });
-  }
-
   return {
     user: Meteor.user(),
     players: Players.find(playerSelector, {sort: {registrationTime: -1}}).fetch(),
     currentPlayer: userId ? Players.findOne(userId) : null,
     voteCounts,
-    maxVoteCount,
   };
 }, _VoteTable);

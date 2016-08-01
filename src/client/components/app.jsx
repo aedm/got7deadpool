@@ -1,14 +1,9 @@
 import React from 'react';
-import {Jumbotron, Button} from 'react-bootstrap';
+import {Jumbotron} from 'react-bootstrap';
 
 import {GamePage} from '/src/client/components/game-page.jsx';
 
 export class App extends React.Component {
-  constructor() {
-    super();
-  }
-
-
   render() {
     return <div>
       <Jumbotron style={{display: ""}}>

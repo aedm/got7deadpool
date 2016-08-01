@@ -23,7 +23,7 @@ Meteor.methods({
       let affectedCount = Players.update(
           {
             _id: Meteor.userId(),
-            votes: { $ne: betToken},
+            votes: {$ne: betToken},
           },
           {$addToSet: {votes: betToken}},
           {filter: false});
@@ -44,3 +44,4 @@ Meteor.methods({
     }
   },
 });
+
