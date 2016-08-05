@@ -1,5 +1,5 @@
 # Dockerfile
-FROM node:4.4.7
+FROM debian
 
 # Install Meteor
 RUN apt-get update
@@ -12,7 +12,7 @@ WORKDIR /app
 RUN meteor npm install
 RUN meteor build --directory /meteor-app
 WORKDIR /meteor-app/bundle/programs/server
-RUN npm install
+RUN meteor npm install
 
 RUN apt-get -y purge --auto-remove curl procps python g++ make
 RUN apt-get clean
@@ -20,4 +20,4 @@ RUN apt-get clean
 ENV PORT 3000
 EXPOSE 3000
 
-CMD node boot.js program.json
+CMD meteor node boot.js program.json
