@@ -32,14 +32,17 @@ export class _GamePage extends React.Component {
     });
   }
 
+
   renderLoginButton() {
     if (this.props.user) {
       return <Button bsStyle="primary" onClick={() => Meteor.logout()}>
-        Log out "{this.props.user.username}"
+        Log out "{this.props.user.name}"
       </Button>
     } else {
       return <form onSubmit={this.handleLogin.bind(this)}>
-        <FormControl ref="username" type="text" placeholder="login with username"/>
+        <Button bsStyle="primary" onClick={() => Meteor.loginWithFacebook()}>
+          Log in with Facebook
+        </Button>
       </form>;
     }
   }
