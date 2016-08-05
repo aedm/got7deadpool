@@ -14,7 +14,7 @@ RUN meteor build --directory /meteor-app
 WORKDIR /meteor-app/bundle/programs/server
 RUN npm install
 
-RUN apt-get purge --auto-remove curl procps python g++ make
+RUN apt-get -y purge --auto-remove curl procps python g++ make
 RUN apt-get clean
 
 ENV PORT 3000
