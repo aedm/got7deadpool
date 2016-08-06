@@ -40,16 +40,19 @@ export class VoteTableRow extends React.Component {
     let ratio = this.props.voteCount / this.props.maxVoteCount;
     // 120 is green, 0 is red
     let hue = 120 * (1 - ratio);
-    let saturation = 60 + 30 * ratio;
-    return `hsl(${hue},${saturation}%,90%)`;
+    let saturation = 0 + 100 * ratio;
+    let lightness = 30 + 30 * ratio;
+    return `hsl(${hue},${saturation}%,${lightness}%)`;
   }
 
   render() {
     let voteCell = null;
     if (this.props.voteCount >= 0) {
       let background = this.getBackgroundColor();
-      voteCell = <td className="votetable-count" style={{"backgroundColor": background}}>
-        {this.props.voteCount}
+      voteCell = <td className="votetable-count">
+        <div className="votetable-count-label" style={{"backgroundColor": background}}>
+          {this.props.voteCount}
+        </div>
       </td>;
     } else {
       voteCell = <td className="votetable-count"/>;
@@ -65,7 +68,7 @@ export class VoteTableRow extends React.Component {
     let avatar = null;
     if (this.props.showAvatar) {
       avatar = <img className="votetable-character-avatar"
-                    src={`/characters/${this.props.bet.token}.jpg`} />
+                    src={`/characters/${this.props.bet.token}.jpg`}/>
     }
 
     return <tr key={this.props.token}>

@@ -53,7 +53,9 @@ export class _GamePage extends React.Component {
 
   render() {
     return <div className="container">
-      { this.renderLoginButton() }
+      <div className="login">
+        { this.renderLoginButton() }
+      </div>
       <VoteTable players={this.players}/>
     </div>;
   }

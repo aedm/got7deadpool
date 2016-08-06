@@ -65,10 +65,10 @@ class _VoteTable extends React.Component {
 
   renderBetArray(array, showAvatar) {
     return <div>
-      <Table className="votetable" striped bordered condensed hover>
+      <Table className="votetable" striped condensed>
         <thead>
         <tr>
-          <th className="votetable-count-header">sum</th>
+          <th className="votetable-count-header"></th>
           <th className="votetable-name"/>
           { this.props.currentPlayer ? <th className="votetable-player">
             <OverlayTrigger placement="top"
