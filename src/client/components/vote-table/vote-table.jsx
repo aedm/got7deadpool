@@ -70,11 +70,14 @@ class _VoteTable extends React.Component {
         <tr>
           <th className="votetable-count-header">sum</th>
           <th className="votetable-name"/>
-          { this.props.currentPlayer ? <th>
-            <img className="votetable-avatar votetable-avatar-loggedin"
-                 src={this.props.currentPlayer.profile.photo || "/asset/avatar50px.jpg"} />
+          { this.props.currentPlayer ? <th className="votetable-player">
+            <OverlayTrigger placement="top"
+                            overlay={<Tooltip id="tooltip">You</Tooltip>}>
+              <img className="votetable-avatar votetable-avatar-loggedin"
+                   src={this.props.currentPlayer.profile.photo || "/asset/avatar50px.jpg"} />
+            </OverlayTrigger>
           </th> : null }
-          { this.props.players.map(player => <th key={player._id}>
+          { this.props.players.map(player => <th key={player._id} className="votetable-player">
               <OverlayTrigger placement="top"
                               overlay={<Tooltip id="tooltip">{player.profile.name}</Tooltip>}>
                 <img className="votetable-avatar"
