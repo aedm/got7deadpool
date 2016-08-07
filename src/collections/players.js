@@ -1,5 +1,6 @@
-import { Mongo } from 'meteor/mongo';
+import {Mongo} from 'meteor/mongo';
 import 'meteor/aldeed:collection2';
+
 
 // Player data: votes, scores, basic profile
 export const Players = new Mongo.Collection("players");
