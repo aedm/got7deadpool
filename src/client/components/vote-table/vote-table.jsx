@@ -50,13 +50,19 @@ class _VoteTable extends React.Component {
 
     // Fill rows with players votes
     if (hasPlayer) {
-      props.currentPlayer.votes.forEach(token => rows[token].player.vote = true);
+      props.currentPlayer.votes.forEach(token => {
+        let row = rows[token];
+        if (row) row.player.vote = true;
+      });
     }
 
     // Fill in rows with other players votes
     if (props.players) {
       props.players.forEach((player, index) => {
-        player.votes.forEach(token => rows[token].votes[index] = true);
+        player.votes.forEach(token => {
+          let row = rows[token];
+          if (row) row.votes[index] = true
+        });
       });
     }
 
