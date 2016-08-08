@@ -4,7 +4,8 @@ import fbgraph from 'fbgraph';
 import {Players} from '/src/collections/players.js';
 
 
-Accounts.onCreateUser(function (options, user) {
+// Exported for testing
+export const onCreateUser = function (options, user) {
   let profile = {
     name: null,
     photo: null,
@@ -33,10 +34,11 @@ Accounts.onCreateUser(function (options, user) {
   user.profile = profile;
 
   return user;
-});
+};
 
 
-Accounts.onLogin(function (attempt) {
+// Exported for testing
+export const onLogin = function (attempt) {
   let user = attempt.user;
 
   if (user.services.facebook) {
@@ -99,4 +101,7 @@ Accounts.onLogin(function (attempt) {
           });
         }));
   }
-});
+};
+
+Accounts.onCreateUser(onCreateUser);
+Accounts.onLogin(onLogin);
