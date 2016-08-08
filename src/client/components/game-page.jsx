@@ -33,7 +33,10 @@ export class _GamePage extends React.Component {
   }
 
   facebookLogin() {
-    Meteor.loginWithFacebook({requestPermissions: ["user_friends"]});
+    Meteor.loginWithFacebook({
+      requestPermissions: ["user_friends"],
+      loginStyle: "redirect",
+    });
   }
 
 
