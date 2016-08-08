@@ -69,7 +69,7 @@ describe('placing bets', function () {
 
   it('can summarize votes', function () {
     AppState.insert({_id: "votecount", "cersei": 0});
-    for (let i=0; i<10; i++) {
+    for (let i=0; i<5; i++) {
       Meteor.call("player/bet", "cersei", true);
       Meteor.call("player/bet", "cersei", true);
       Meteor.call("player/bet", "cersei", false);

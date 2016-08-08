@@ -65,9 +65,19 @@ export const ThreePointCharacters = [
     name: "Ellaria Sand",
   },
   {
+    token: "sc",
+    points: 3,
+    name: "Sandor Clegane",
+  },
+  {
     token: "nk",
     points: 3,
     name: "The Night King",
+  },
+  {
+    token: "dr",
+    points: 3,
+    name: "Any dragon",
   },
 ];
 
@@ -82,16 +92,6 @@ export const TwoPointCharacters = [
     token: "gw",
     points: 2,
     name: "Grey Worm",
-  },
-  {
-    token: "dr",
-    points: 2,
-    name: "Any dragon",
-  },
-  {
-    token: "sc",
-    points: 2,
-    name: "Sandor Clegane",
   },
   {
     token: "gc",
@@ -149,6 +149,16 @@ export const TwoPointCharacters = [
     name: "Meera Reed",
   },
   {
+    token: "bd",
+    points: 2,
+    name: "Beric Dondarrion",
+  },
+  {
+    token: "me",
+    points: 1,
+    name: "Melisandre",
+  },
+  {
     token: "ts",
     points: 2,
     name: "Tyene Sand",
@@ -172,11 +182,6 @@ export const OnePointCharacters = [
     name: "Daario Naharis",
   },
   {
-    token: "me",
-    points: 1,
-    name: "Melisandre",
-  },
-  {
     token: "jh",
     points: 1,
     name: "Jaqen H'ghar",
@@ -192,9 +197,9 @@ export const OnePointCharacters = [
     name: "Gilly",
   },
   {
-    token: "bd",
+    token: "ls",
     points: 1,
-    name: "Beric Dondarrion",
+    name: "Little Sam",
   },
   {
     token: "tm",
@@ -282,7 +287,7 @@ export const TwoPointEvents = [
   {
     token: "8",
     points: 2,
-    name: "Bran wargs into someone on this list",
+    name: "Bran wargs into someone from the lists above",
   },
   {
     token: "9",
@@ -317,7 +322,7 @@ export const TwoPointEvents = [
   {
     token: "15",
     points: 2,
-    name: "Arya meets Nymeria",
+    name: "Arya meets her direwolf again",
   },
   {
     token: "16",

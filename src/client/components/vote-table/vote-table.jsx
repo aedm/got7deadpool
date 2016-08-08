@@ -33,7 +33,7 @@ class _VoteTable extends React.Component {
     let maxVoteCount = 1;
     if (props.voteCounts) {
       _.each(props.voteCounts, count => {
-        if (count>maxVoteCount) maxVoteCount = count;
+        if (count > maxVoteCount) maxVoteCount = count;
       });
     }
 
@@ -41,7 +41,7 @@ class _VoteTable extends React.Component {
     _.each(Bets, bet => {
       rows[bet.token] = {
         bet,
-        player: hasPlayer ? { vote: false } : null,
+        player: hasPlayer ? {vote: false} : null,
         votes: _.map(_.range(playerCount), () => false),
         voteCount: props.voteCounts ? props.voteCounts[bet.token] : -1,
         maxVoteCount,
@@ -66,32 +66,37 @@ class _VoteTable extends React.Component {
       });
     }
 
-    return { rows };
+    return {rows};
+  }
+
+  renderTableHeader() {
+    if (!this.props.currentPlayer) return null;
+    return <thead>
+    <tr>
+      <th className="votetable-count-header"/>
+      <th className="votetable-name"/>
+      { this.props.currentPlayer ? <th className="votetable-player">
+        <OverlayTrigger placement="top"
+                        overlay={<Tooltip id="tooltip">You</Tooltip>}>
+          <img className="votetable-avatar votetable-avatar-loggedin"
+               src={this.props.currentPlayer.profile.photo || "/asset/avatar50px.jpg"}/>
+        </OverlayTrigger>
+      </th> : null }
+      { this.props.players.map(player => <th key={player._id} className="votetable-player">
+        <OverlayTrigger placement="top"
+                        overlay={<Tooltip id="tooltip">{player.profile.name}</Tooltip>}>
+          <img className="votetable-avatar"
+               src={player.profile.photo || "/asset/avatar50px.jpg"}/>
+        </OverlayTrigger>
+      </th>) }
+    </tr>
+    </thead>;
   }
 
   renderBetArray(array, showAvatar) {
     return <div>
       <Table className="votetable" striped condensed>
-        <thead>
-        <tr>
-          <th className="votetable-count-header"></th>
-          <th className="votetable-name"/>
-          { this.props.currentPlayer ? <th className="votetable-player">
-            <OverlayTrigger placement="top"
-                            overlay={<Tooltip id="tooltip">You</Tooltip>}>
-              <img className="votetable-avatar votetable-avatar-loggedin"
-                   src={this.props.currentPlayer.profile.photo || "/asset/avatar50px.jpg"} />
-            </OverlayTrigger>
-          </th> : null }
-          { this.props.players.map(player => <th key={player._id} className="votetable-player">
-              <OverlayTrigger placement="top"
-                              overlay={<Tooltip id="tooltip">{player.profile.name}</Tooltip>}>
-                <img className="votetable-avatar"
-                     src={player.profile.photo || "/asset/avatar50px.jpg"} />
-              </OverlayTrigger>
-            </th>) }
-        </tr>
-        </thead>
+        { this.renderTableHeader() }
         <tbody>
         { array.map(bet =>
             <VoteTableRow key={bet.token} showAvatar={showAvatar} {...this.state.rows[bet.token]}/>)
@@ -101,8 +106,33 @@ class _VoteTable extends React.Component {
     </div>;
   }
 
-  render() {
-    return <div className="main-app">
+  renderReadOnlyTable() {
+    return <div className="container">
+      <div className="row">
+        <div className="table-container col-md-4">
+          <h2>Triple score</h2>
+          { this.renderBetArray(ThreePointCharacters, true)}
+        </div>
+        <div className="table-container col-md-4">
+          <h2>Double score</h2>
+          { this.renderBetArray(TwoPointCharacters, true)}
+        </div>
+        <div className="table-container col-md-4">
+          <h2>Others</h2>
+          { this.renderBetArray(OnePointCharacters, true)}
+        </div>
+      </div>
+      <div className="table-container">
+        <h2>Double score events</h2>
+        { this.renderBetArray(TwoPointEvents)}
+      </div>
+    </div>;
+
+  }
+
+
+  renderPlayerTable() {
+    return <div className="table-container">
       <h2>Triple score characters</h2>
       <p>Select those who you think will die in season seven.</p>
       { this.renderBetArray(ThreePointCharacters, true)}
@@ -114,6 +144,11 @@ class _VoteTable extends React.Component {
       { this.renderBetArray(TwoPointEvents)}
     </div>;
   }
+
+  render() {
+    return this.props.currentPlayer ? this.renderPlayerTable() : this.renderReadOnlyTable();
+  }
+
 }
 
 _VoteTable.propTypes = {
