@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createContainer} from 'meteor/react-meteor-data';
-import {Panel, FormControl, FormGroup, Button} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import {Accounts} from 'meteor/accounts-base';
 
 import {VoteTable} from '/src/client/components/vote-table/vote-table.jsx';

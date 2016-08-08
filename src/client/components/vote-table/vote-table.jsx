@@ -134,7 +134,6 @@ class _VoteTable extends React.Component {
   renderPlayerTable() {
     return <div className="table-container">
       <h2>Triple score characters</h2>
-      <p>Select those who you think will die in season seven.</p>
       { this.renderBetArray(ThreePointCharacters, true)}
       <h2>Double score characters</h2>
       { this.renderBetArray(TwoPointCharacters, true)}

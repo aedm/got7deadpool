@@ -7,9 +7,11 @@ export class App extends React.Component {
   render() {
     return <div>
       <Jumbotron style={{display: ""}}>
-        <div className="container">
-          <h2>Game of Thrones Season 7 Death Lottery</h2>
-          <p>This is non-public and pre-alpha. Database will be wiped like the Baratheons. Don't get attached.</p>
+        <div className="container text-center">
+          <h1>Game of Thrones Season 7 Death Lottery</h1>
+          <p>This is a non-public alpha version.<br/>
+            Database might get wiped.<br/>
+            Spoilers everywhere.</p>
         </div>
       </Jumbotron>
 
