@@ -127,7 +127,6 @@ class _VoteTable extends React.Component {
         { this.renderBetArray(TwoPointEvents)}
       </div>
     </div>;
-
   }
 
 
