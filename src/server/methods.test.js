@@ -7,81 +7,83 @@ import '/src/methods.js';
 import {Players} from '/src/collections/players.js';
 import {AppState} from '/src/collections/app-state.js';
 
-describe('placing bets', function () {
-  let fakeUser = {
-    _id: "rdash",
-    profile: {
-      name: "Rainbow Dash",
-      photo: "nope",
-    },
-  };
 
-  beforeEach(function () {
-    resetDatabase();
-    stubs.create('fakeUserId', Meteor, 'userId').returns(fakeUser._id);
-    stubs.create('fakeUser', Meteor, 'user').returns(fakeUser);
+Meteor.startup(function () {
+  describe('placing bets', function () {
+    let fakeUser = {
+      _id: "rdash",
+      profile: {
+        name: "Rainbow Dash",
+        photo: "nope",
+      },
+    };
 
-    Players.insert({
-      _id: fakeUser._id,
-      profile: fakeUser.profile,
-      registrationTime: new Date(),
-      votes: [],
-      scores: [],
+    beforeEach(function () {
+      resetDatabase();
+      stubs.create('fakeUserId', Meteor, 'userId').returns(fakeUser._id);
+      stubs.create('fakeUser', Meteor, 'user').returns(fakeUser);
+
+      Players.insert({
+        _id: fakeUser._id,
+        profile: fakeUser.profile,
+        registrationTime: new Date(),
+        votes: [],
+        scores: [],
+      });
+
     });
 
-  });
+    afterEach(function () {
+      stubs.restoreAll();
+    });
 
-  afterEach(function () {
-    stubs.restoreAll();
-  });
-
-  it('registers a positive vote', function () {
-    Meteor.call("player/bet", "cersei", true);
-
-    let doc = Players.findOne(fakeUser._id);
-    assert.sameMembers(doc.votes, ["cersei"]);
-  });
-
-  it('undoes a positive vote', function () {
-    Meteor.call("player/bet", "cersei", true);
-    Meteor.call("player/bet", "cersei", false);
-
-    let doc = Players.findOne(fakeUser._id);
-    assert.sameMembers(doc.votes, []);
-  });
-
-  it('registers a negative vote', function () {
-    Meteor.call("player/bet", "cersei", false);
-
-    let doc = Players.findOne(fakeUser._id);
-    assert.sameMembers(doc.votes, []);
-  });
-
-  it('registers several votes', function () {
-    Meteor.call("player/bet", "cersei", true);
-    Meteor.call("player/bet", "jaime", true);
-    Meteor.call("player/bet", "tyrion", true);
-    Meteor.call("player/bet", "jaime", false);
-
-    let doc = Players.findOne(fakeUser._id);
-    assert.sameMembers(doc.votes, ["cersei", "tyrion"]);
-  });
-
-  it('can summarize votes', function () {
-    AppState.insert({_id: "votecount", "cersei": 0});
-    for (let i=0; i<5; i++) {
+    it('registers a positive vote', function () {
       Meteor.call("player/bet", "cersei", true);
+
+      let doc = Players.findOne(fakeUser._id);
+      assert.sameMembers(doc.votes, ["cersei"]);
+    });
+
+    it('undoes a positive vote', function () {
       Meteor.call("player/bet", "cersei", true);
       Meteor.call("player/bet", "cersei", false);
-      Meteor.call("player/bet", "cersei", false);
-      Meteor.call("player/bet", "cersei", false);
-    }
-    Meteor.call("player/bet", "cersei", true);
 
-    let doc = Players.findOne(fakeUser._id);
-    assert.sameMembers(doc.votes, ["cersei"]);
-    let votecount = AppState.findOne("votecount");
-    assert.equal(votecount["cersei"], 1);
+      let doc = Players.findOne(fakeUser._id);
+      assert.sameMembers(doc.votes, []);
+    });
+
+    it('registers a negative vote', function () {
+      Meteor.call("player/bet", "cersei", false);
+
+      let doc = Players.findOne(fakeUser._id);
+      assert.sameMembers(doc.votes, []);
+    });
+
+    it('registers several votes', function () {
+      Meteor.call("player/bet", "cersei", true);
+      Meteor.call("player/bet", "jaime", true);
+      Meteor.call("player/bet", "tyrion", true);
+      Meteor.call("player/bet", "jaime", false);
+
+      let doc = Players.findOne(fakeUser._id);
+      assert.sameMembers(doc.votes, ["cersei", "tyrion"]);
+    });
+
+    it('can summarize votes', function () {
+      AppState.insert({_id: "votecount", "cersei": 0});
+      for (let i = 0; i < 5; i++) {
+        Meteor.call("player/bet", "cersei", true);
+        Meteor.call("player/bet", "cersei", true);
+        Meteor.call("player/bet", "cersei", false);
+        Meteor.call("player/bet", "cersei", false);
+        Meteor.call("player/bet", "cersei", false);
+      }
+      Meteor.call("player/bet", "cersei", true);
+
+      let doc = Players.findOne(fakeUser._id);
+      assert.sameMembers(doc.votes, ["cersei"]);
+      let votecount = AppState.findOne("votecount");
+      assert.equal(votecount["cersei"], 1);
+    });
   });
 });
-
