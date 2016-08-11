@@ -95,7 +95,7 @@ class _VoteTable extends React.Component {
 
   renderBetArray(array, showAvatar) {
     return <div>
-      <Table className="votetable" striped condensed>
+      <Table className="votetable" striped>
         { this.renderTableHeader() }
         <tbody>
         { array.map(bet =>
