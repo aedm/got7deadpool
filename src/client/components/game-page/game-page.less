@@ -1,35 +1,43 @@
 @import '/src/client/stylesheets/bootstrap-variables.less';
 
+@gameinfo-box-color: #fff;
+@gameinfo-box-gutter: 30px;
+
 .rule-table {
-  td {
-    border: 1px solid #eee;
-  }
-}
-
-.rules {
-  margin-bottom: 20px;
-  div {
-    @media(min-width: @screen-md-min){
-      height: 305px;
-    }
-    div {
-      //border: 1px solid #7686c0;
-      height: 100%;
-      margin: 10px 10px 20px;
-      padding: 10px 20px;
-      border-radius: 5px;
-      background-color: #eaecf0;
-    }
-  }
-}
-
-.rules-empty {
   border: 0 !important;
-  background-color: #eaecf0;
+  background-color: @gameinfo-box-color;
+
+  td {
+    border: 1px solid #ccc !important;
+    background-color: #fff;
+  }
+
+  .rules-empty {
+    border: 0 !important;
+    background-color: @gameinfo-box-color;
+  }
+}
+
+.gameinfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: -90px (@grid-gutter-width/2 - @gameinfo-box-gutter) 0;
+
+  .gameinfo-box {
+    box-shadow: 0px 5px 40px -3px rgba(0,0,0,0.3);
+    text-align: center;
+    width: 420px;
+    margin: 10px @gameinfo-box-gutter 40px;
+    padding: 0px 20px 10px;
+    //border-radius: 5px;
+    background-color: @gameinfo-box-color;
+  }
 }
 
 .login-button {
-  margin: 30px 10px 0;
+  margin: 0px 10px 0;
 }
 
 .game-title {
@@ -39,7 +47,7 @@
   font-size: 40px;
   font-weight: 900;
   //@media(min-width: @screen-sm-min){
-    margin-top: -(@navbar-height + @navbar-margin-bottom + 2px);
+  margin-top: -(@navbar-height + @navbar-margin-bottom + 2px);
   //}
   padding-top: 100px;
   text-transform: uppercase;
