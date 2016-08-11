@@ -1,3 +1,5 @@
+@import '/src/client/stylesheets/bootstrap-variables.less';
+
 .rule-table {
   td {
     border: 1px solid #eee;
@@ -7,7 +9,7 @@
 .rules {
   margin-bottom: 20px;
   div {
-    @media(min-width:992px){
+    @media(min-width: @screen-md-min){
       height: 305px;
     }
     div {
@@ -16,16 +18,39 @@
       margin: 10px 10px 20px;
       padding: 10px 20px;
       border-radius: 5px;
-      background-color: #ffede0;
+      background-color: #eaecf0;
     }
   }
 }
 
 .rules-empty {
   border: 0 !important;
-  background-color: #ffede0;
+  background-color: #eaecf0;
 }
 
 .login-button {
   margin: 30px 10px 0;
+}
+
+.game-title {
+  //background-color: #234;
+  text-align: center;
+  color: white;
+  font-size: 40px;
+  font-weight: 900;
+  //@media(min-width: @screen-sm-min){
+    margin-top: -(@navbar-height + @navbar-margin-bottom + 2px);
+  //}
+  padding-top: 100px;
+  text-transform: uppercase;
+  padding-bottom: 120px;
+  margin-bottom: 20px;
+  background: url('/asset/ned.jpg') no-repeat center;
+  background-size: cover;
+}
+
+h1 {
+  font-weight: 900 !important;
+  padding: 0px 10px 20px;
+  font-size: 50px !important;
 }

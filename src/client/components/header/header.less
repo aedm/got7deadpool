@@ -1,3 +1,5 @@
+@import '/src/client/stylesheets/bootstrap-variables.less';
+
 .header-photo {
   width: 35px;
   height: 35px;
@@ -6,4 +8,26 @@
   left: -45px;
   top: 6px;
   border-radius: 50px;
+}
+
+@media (max-width: @screen-xs-max) {
+  .navbar {
+    .navbar-toggle {
+      position: absolute;
+      //bottom: @navbar-height !important;
+      bottom: 0px;
+      right: 0px;
+      z-index: 2000;
+    }
+
+    .navbar-collapse {
+      position: relative;
+      margin-bottom: @navbar-height !important;
+      transition: none !important;
+
+      li a {
+        color: white !important;
+      }
+    }
+  }
 }
