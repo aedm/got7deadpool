@@ -73,6 +73,10 @@ export class _GamePage extends React.Component {
         { this.renderLoginButton() }
       </div>
       <VoteTable/>
+      <div className="text-center">It's better to play with friends!&nbsp;
+        <a href="http://www.facebook.com/sharer/sharer.php?u=got.aedm.us">Share on Facebook</a>.
+        <br /><br/>
+      </div>
     </div>;
   }
 }
