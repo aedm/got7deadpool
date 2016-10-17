@@ -80,7 +80,7 @@ export class VoteTableRow extends React.Component {
         </div>
       </td>
       { playerCell }
-      { this.props.votes.map((vote, index) => <td key={index}>
+      { this.props.votes.map((vote, index) => <td key={index} className="votetable-friend-cell">
         <Checkbox disabled checked={vote}/>
       </td>)}
     </tr>;

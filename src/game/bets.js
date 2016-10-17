@@ -354,6 +354,11 @@ export const TwoPointEvents = [
     points: 2,
     name: "All remaining Starks at one place",
   },
+  {
+    token: "22",
+    points: 2,
+    name: "Someone drinks white wine",
+  },
 ];
 
 

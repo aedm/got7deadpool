@@ -82,13 +82,14 @@ class _VoteTable extends React.Component {
                src={this.props.currentPlayer.profile.photo || "/asset/avatar50px.jpg"}/>
         </OverlayTrigger>
       </th> : null }
-      { this.props.players.map(player => <th key={player._id} className="votetable-player">
-        <OverlayTrigger placement="top"
-                        overlay={<Tooltip id="tooltip">{player.profile.name}</Tooltip>}>
-          <img className="votetable-avatar"
-               src={player.profile.photo || "/asset/avatar50px.jpg"}/>
-        </OverlayTrigger>
-      </th>) }
+      { this.props.players.map(player =>
+          <th key={player._id} className="votetable-player votetable-friend-cell">
+            <OverlayTrigger placement="top"
+                            overlay={<Tooltip id="tooltip">{player.profile.name}</Tooltip>}>
+              <img className="votetable-avatar"
+                   src={player.profile.photo || "/asset/avatar50px.jpg"}/>
+            </OverlayTrigger>
+          </th>) }
     </tr>
     </thead>;
   }
@@ -129,9 +130,17 @@ class _VoteTable extends React.Component {
     </div>;
   }
 
+  renderRotateWarning() {
+    // if (this.props.players.length == 0) return null;
+    return <div className="votetable-rotate-warning">
+      Rotate your phone to landscape to see your friends' votes.
+    </div>;
+  }
+
 
   renderPlayerTable() {
     return <div className="table-container">
+      { this.renderRotateWarning() }
       <h2>Triple score characters</h2>
       { this.renderBetArray(ThreePointCharacters, true)}
       <h2>Double score characters</h2>
