@@ -28,7 +28,6 @@ class _VoteTable extends React.Component {
   processProps(props) {
     let rows = {};
     let hasPlayer = !!props.currentPlayer;
-    let playerCount = props.players ? props.players.length : 0;
 
     let maxVoteCount = 1;
     if (props.voteCounts) {
@@ -42,7 +41,7 @@ class _VoteTable extends React.Component {
       rows[bet.token] = {
         bet,
         player: hasPlayer ? {vote: false} : null,
-        votes: _.map(_.range(playerCount), () => false),
+        votingPlayers: [],
         voteCount: props.voteCounts ? props.voteCounts[bet.token] : -1,
         maxVoteCount,
       };
@@ -52,7 +51,10 @@ class _VoteTable extends React.Component {
     if (hasPlayer) {
       props.currentPlayer.votes.forEach(token => {
         let row = rows[token];
-        if (row) row.player.vote = true;
+        if (row) {
+          row.player.vote = true;
+          row.votingPlayers.push(props.currentPlayer);
+        }
       });
     }
 
@@ -61,7 +63,7 @@ class _VoteTable extends React.Component {
       props.players.forEach((player, index) => {
         player.votes.forEach(token => {
           let row = rows[token];
-          if (row) row.votes[index] = true
+          if (row) row.votingPlayers.push(player);
         });
       });
     }
@@ -69,35 +71,9 @@ class _VoteTable extends React.Component {
     return {rows};
   }
 
-  renderTableHeader() {
-    if (!this.props.currentPlayer) return null;
-    return <thead>
-    <tr>
-      <th className="votetable-count-header"/>
-      <th className="votetable-name"/>
-      { this.props.currentPlayer ? <th className="votetable-player">
-        <OverlayTrigger placement="top"
-                        overlay={<Tooltip id="tooltip">You</Tooltip>}>
-          <img className="votetable-avatar votetable-avatar-loggedin"
-               src={this.props.currentPlayer.profile.photo || "/asset/avatar50px.jpg"}/>
-        </OverlayTrigger>
-      </th> : null }
-      { this.props.players.map(player =>
-          <th key={player._id} className="votetable-player votetable-friend-cell">
-            <OverlayTrigger placement="top"
-                            overlay={<Tooltip id="tooltip">{player.profile.name}</Tooltip>}>
-              <img className="votetable-avatar"
-                   src={player.profile.photo || "/asset/avatar50px.jpg"}/>
-            </OverlayTrigger>
-          </th>) }
-    </tr>
-    </thead>;
-  }
-
   renderBetArray(array, showAvatar) {
     return <div>
       <Table className="votetable" striped>
-        { this.renderTableHeader() }
         <tbody>
         { array.map(bet =>
             <VoteTableRow key={bet.token} showAvatar={showAvatar} {...this.state.rows[bet.token]}/>)
@@ -130,17 +106,8 @@ class _VoteTable extends React.Component {
     </div>;
   }
 
-  renderRotateWarning() {
-    // if (this.props.players.length == 0) return null;
-    return <div className="votetable-rotate-warning">
-      Rotate your phone to landscape to see your friends' votes.
-    </div>;
-  }
-
-
   renderPlayerTable() {
     return <div className="table-container">
-      { this.renderRotateWarning() }
       <h2>Triple score characters</h2>
       { this.renderBetArray(ThreePointCharacters, true)}
       <h2>Double score characters</h2>
@@ -155,7 +122,6 @@ class _VoteTable extends React.Component {
   render() {
     return this.props.currentPlayer ? this.renderPlayerTable() : this.renderReadOnlyTable();
   }
-
 }
 
 _VoteTable.propTypes = {

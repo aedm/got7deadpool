@@ -1,6 +1,6 @@
 import {Meteor} from 'meteor/meteor';
 import React from 'react';
-import {Checkbox} from 'react-bootstrap';
+import {Checkbox, OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 export class VoteTableRow extends React.Component {
   constructor(props) {
@@ -80,9 +80,15 @@ export class VoteTableRow extends React.Component {
         </div>
       </td>
       { playerCell }
-      { this.props.votes.map((vote, index) => <td key={index} className="votetable-friend-cell">
-        <Checkbox disabled checked={vote}/>
-      </td>)}
+      <td className="votetable-friend-cell">
+        { this.props.votingPlayers.map((player, index) =>
+            <OverlayTrigger key={index} placement="top"
+                            overlay={<Tooltip id="tooltip">{player.profile.name}</Tooltip>}>
+              <img className="votetable-avatar" style={{zIndex: `${this.props.votingPlayers.length - index}`}}
+                   src={player.profile.photo || "/asset/avatar50px.jpg"}/>
+            </OverlayTrigger>)
+        }
+      </td>
     </tr>;
   }
 }
@@ -98,7 +104,7 @@ VoteTableRow.propTypes = {
   }),
 
   // Other players votes
-  votes: React.PropTypes.arrayOf(React.PropTypes.bool),
+  votingPlayers: React.PropTypes.arrayOf(React.PropTypes.object),
 
   // Sum of all counts for this bet
   voteCount: React.PropTypes.number,
