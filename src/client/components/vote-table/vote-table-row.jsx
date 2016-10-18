@@ -1,6 +1,9 @@
 import {Meteor} from 'meteor/meteor';
 import React from 'react';
-import {Checkbox, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+
+import {CustomCheckbox} from '/src/client/components/custom-checkbox/custom-checkbox.jsx';
+
 
 export class VoteTableRow extends React.Component {
   constructor(props) {
@@ -84,7 +87,7 @@ export class VoteTableRow extends React.Component {
     let playerCell = null;
     if (this.props.player) {
       playerCell = <td className="votetable-checkbox-cell">
-        <Checkbox ref="vote" checked={this.state.vote} onChange={() => this.handleToggle()}/>
+        <CustomCheckbox checked={this.state.vote} onChange={() => this.handleToggle()}/>
       </td>;
     }
 

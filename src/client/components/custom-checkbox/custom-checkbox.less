@@ -1,0 +1,30 @@
+@custom-checkbox-size: 24px;
+
+div.custom-checkbox {
+  margin: auto;
+  width: @custom-checkbox-size;
+  height: @custom-checkbox-size;
+  cursor: pointer;
+  background: #dddfe2;
+  border-radius: 2px;
+  box-shadow: inset 2px 2px 7px -3px #6e6e6e, 1px 1px 1px 0px rgba(255,255,255,1.0);
+  border: 1px solid #a6a6a6;
+  text-align: center;
+  color: #d70000;
+  &:hover {
+    background: #e7ecfa;
+    color: #d22;
+  }
+  .glyphicon {
+    font-size: @custom-checkbox-size - 10px;
+    text-shadow: 0px 1px #888;
+    opacity: 1;
+    transition: all .15s linear;
+    padding-top: 4px;
+    padding-left: 2px;
+    &.unchecked {
+      padding-top: 0px;
+      opacity: 0;
+    }
+  }
+}
