@@ -7,7 +7,7 @@ import {Header} from '/src/client/components/header/header.jsx';
 export class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {welcomeScreen: true};
+    this.state = {welcomeScreen: false};
   }
 
   render() {

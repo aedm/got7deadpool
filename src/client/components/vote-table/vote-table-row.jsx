@@ -45,6 +45,29 @@ export class VoteTableRow extends React.Component {
     return `hsl(${hue},${saturation}%,${lightness}%)`;
   }
 
+  renderFriendsList() {
+    if (!this.props.player) return null;
+
+    let vote = this.props.player.vote;
+
+    return <td className="votetable-friend-cell">
+      <div className="votetable-friends-list">
+        <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip">You</Tooltip>}>
+          <img className={`votetable-avatar votetable-avatar-self ${vote ? "votetable-voted" : ""}`}
+               style={{zIndex: this.props.votingPlayers.length + 1}}
+               src={this.props.user.profile.photo || "/asset/avatar50px.jpg"}/>
+        </OverlayTrigger>
+        { this.props.votingPlayers.map((player, index) =>
+            <OverlayTrigger key={index} placement="top"
+                            overlay={<Tooltip id="tooltip">{player.profile.name}</Tooltip>}>
+              <img className="votetable-avatar"
+                   style={{zIndex: `${this.props.votingPlayers.length - index}`}}
+                   src={player.profile.photo || "/asset/avatar50px.jpg"}/>
+            </OverlayTrigger>)}
+      </div>
+    </td>;
+  }
+
   render() {
     let voteCell = null;
     if (this.props.voteCount >= 0) {
@@ -60,7 +83,7 @@ export class VoteTableRow extends React.Component {
 
     let playerCell = null;
     if (this.props.player) {
-      playerCell = <td>
+      playerCell = <td className="votetable-checkbox-cell">
         <Checkbox ref="vote" checked={this.state.vote} onChange={() => this.handleToggle()}/>
       </td>;
     }
@@ -80,15 +103,7 @@ export class VoteTableRow extends React.Component {
         </div>
       </td>
       { playerCell }
-      <td className="votetable-friend-cell">
-        { this.props.votingPlayers.map((player, index) =>
-            <OverlayTrigger key={index} placement="top"
-                            overlay={<Tooltip id="tooltip">{player.profile.name}</Tooltip>}>
-              <img className="votetable-avatar" style={{zIndex: `${this.props.votingPlayers.length - index}`}}
-                   src={player.profile.photo || "/asset/avatar50px.jpg"}/>
-            </OverlayTrigger>)
-        }
-      </td>
+      { this.renderFriendsList() }
     </tr>;
   }
 }

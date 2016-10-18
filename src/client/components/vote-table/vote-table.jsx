@@ -53,7 +53,6 @@ class _VoteTable extends React.Component {
         let row = rows[token];
         if (row) {
           row.player.vote = true;
-          row.votingPlayers.push(props.currentPlayer);
         }
       });
     }
@@ -76,7 +75,8 @@ class _VoteTable extends React.Component {
       <Table className="votetable" striped>
         <tbody>
         { array.map(bet =>
-            <VoteTableRow key={bet.token} showAvatar={showAvatar} {...this.state.rows[bet.token]}/>)
+            <VoteTableRow key={bet.token} showAvatar={showAvatar}
+                          user={this.props.user} {...this.state.rows[bet.token]}/>)
         }
         </tbody>
       </Table>

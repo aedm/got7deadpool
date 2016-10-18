@@ -3,9 +3,12 @@
 @votetable-name-cell-width: 230px;
 @votetable-name-cell-height: 60px;
 @votetable-checkbox-size: 24px;
-@votetable-sum-cell-width: 62px;
+@votetable-sum-cell-width: 56px;
 @votetable-avatar-size: 50px;
 @votetable-player-avatar-size: 40px;
+@votetable-padding: 8px;
+@votetable-checkbox-cell-width: @votetable-checkbox-size + 2 * @votetable-padding;
+@votetable-width: @votetable-name-cell-width + @votetable-sum-cell-width + @votetable-checkbox-cell-width;
 
 .votetable {
   width: 100% !important;
@@ -22,11 +25,28 @@
   }
 
   .votetable-friend-cell {
-    text-align: left;
-    padding-left: 0px;
+    padding: 0px;
+    width: 1px;
+    max-width: 1px;
     @media (max-width: @screen-xs-min) {
       display: none;
     }
+  }
+
+  div.votetable-friends-list {
+    text-align: left;
+    width: 50%;
+    //background-color: rgba(255, 0, 0, 0.2);
+    height: @votetable-name-cell-height;
+    position: absolute;
+    right: 0;
+    padding-left: @votetable-width / 2 - @votetable-player-avatar-size;
+    padding-top: 10px;
+    margin-top: -@votetable-name-cell-height / 2;
+    vertical-align: middle !important;
+    white-space: nowrap;
+    overflow: hidden;
+    z-index: -1;
   }
 
   img.votetable-avatar {
@@ -44,6 +64,17 @@
 
     &:hover {
       opacity: 1;
+    }
+  }
+
+  img.votetable-avatar-self {
+    margin-left: -5px;
+    margin-right: 15px;
+    transition: margin .35s ease-in-out;
+
+    &.votetable-voted {
+      margin-left: @votetable-player-avatar-size + 10px;
+      margin-right: -10px;
     }
   }
 }
@@ -85,9 +116,16 @@
   }
 }
 
+.votetable-checkbox-cell {
+  padding-left: @votetable-padding;
+  padding-right: @votetable-padding;
+}
+
 .votetable-count {
   text-align: right;
   min-width: @votetable-sum-cell-width;
+  padding-left: 0 !important;
+  padding-right: @votetable-padding;
 }
 
 .votetable-count-label {
@@ -98,13 +136,12 @@
   display: inline-block;
   font-weight: 600;
   font-size: 12px;
-  margin: 0 3px 0 8px;
+  margin: 0 3px 0 0;
 }
 
 td {
   text-align: center;
   vertical-align: middle !important;
-  min-width: 30px;
 
   label {
     padding: 0 !important;
