@@ -1,3 +1,8 @@
+stages:
+  - test
+  - build
+  - deploy
+
 meteor_tests:
   image: debian:latest
   stage: test
@@ -11,7 +16,6 @@ meteor_tests:
   - meteor npm install
   - meteor npm run-script test
   - meteor npm run-script test-full
-
 
 build_docker_image:
   image: gitlab/dind:latest
