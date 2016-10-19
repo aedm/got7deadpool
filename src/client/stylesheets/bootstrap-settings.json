@@ -2,7 +2,7 @@
   "less": {
     "customVariables": true,
 
-    "exposeMixins": false,
+    "exposeMixins": true,
 
     "compile": true,
 

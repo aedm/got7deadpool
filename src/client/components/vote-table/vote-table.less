@@ -1,9 +1,10 @@
 @import '/src/client/stylesheets/bootstrap-variables.less';
+@import '/src/client/stylesheets/bootstrap-mixins.less';
 
 @votetable-name-cell-width: 230px;
 @votetable-name-cell-height: 60px;
 @votetable-checkbox-size: 24px;
-@votetable-sum-cell-width: 56px;
+@votetable-sum-cell-width: 48px;
 @votetable-avatar-size: 50px;
 @votetable-player-avatar-size: 40px;
 @votetable-padding: 8px;
@@ -11,29 +12,85 @@
 @votetable-width: @votetable-name-cell-width + @votetable-sum-cell-width + @votetable-checkbox-cell-width;
 
 .votetable {
-  width: 100% !important;
-  margin: 50px 0px 80px !important;
+  width: 100%;
+  margin: 50px auto 80px;
   box-shadow: 0px 0px 10px -2px rgba(59, 61, 115, 0.38) !important;
-  border-top: 1px solid #ccc !important;
-  border-bottom: 1px solid #ccc !important;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
 
   @media (min-width: @screen-xs-min) {
-    margin: 50px auto 80px !important;
-    width: auto !important;
-    border-left: 1px solid #ccc !important;
-    border-right: 1px solid #ccc !important;
+    width: @votetable-width;
+    max-width: @votetable-width;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
   }
 
-  .votetable-friend-cell {
-    padding: 0px;
-    width: 1px;
-    max-width: 1px;
-    @media (max-width: @screen-xs-min) {
-      display: none;
+  .votetable-vote {
+    .votetable-row {
+      background-color: #eeeeee;
+    }
+    &:nth-child(2n+1) {
+      .votetable-row {
+        background-color: #f7f7f7;
+      }
     }
   }
 
+  .votetable-row {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    height: @votetable-name-cell-height;
+    border-bottom: 1px solid #ccc;
+
+    // Number of votes
+    .votetable-count {
+      text-align: right;
+      min-width: @votetable-sum-cell-width;
+      padding: 0;
+      margin: 0;
+
+      .votetable-count-label {
+        text-align: right;
+        padding: 0px 3px;
+        border-radius: 2px;
+        color: white;
+        display: inline-block;
+        font-weight: 600;
+        font-size: 12px;
+        margin: 0 3px 0 0;
+      }
+    }
+
+    .votetable-character-avatar {
+      border-radius: 4px;
+      float: right;
+      display: block;
+      margin: 3px 0 3px @votetable-padding;
+      width: @votetable-avatar-size;
+      height: @votetable-avatar-size;
+    }
+
+    // Name of the character
+    .votetable-name {
+      text-align: left;
+      padding: 0 0 0 @votetable-padding;
+      flex-grow: 1;
+    }
+
+    .votetable-checkbox-cell {
+      padding-left: @votetable-padding;
+      padding-right: @votetable-padding * 2;
+    }
+  }
+
+  // List of friends who voted the same
   div.votetable-friends-list {
+    @media (max-width: @screen-xs-min) {
+      display: none;
+    }
+
     text-align: left;
     width: 50%;
     //background-color: rgba(255, 0, 0, 0.2);
@@ -42,136 +99,46 @@
     right: 0;
     padding-left: @votetable-width / 2 - @votetable-player-avatar-size;
     padding-top: 10px;
-    margin-top: -@votetable-name-cell-height / 2;
-    vertical-align: middle !important;
     white-space: nowrap;
     overflow: hidden;
-    z-index: -1;
-  }
+    z-index: 0;
 
-  img.votetable-avatar {
-    border-radius: @votetable-player-avatar-size;
-    width: @votetable-player-avatar-size;
-    height: @votetable-player-avatar-size;
-    border: 2px solid #ffffff;
-    box-shadow: 2px 2px 8px -1px #5c5c5c;
-    margin-right: -10px;
-    position: relative;
-
-    &:last-child {
-      margin-right: 0px;
-    }
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-
-  img.votetable-avatar-self {
-    margin-left: -5px;
-    margin-right: 15px;
-    transition: margin .35s ease-in-out;
-
-    &.votetable-voted {
-      margin-left: @votetable-player-avatar-size + 10px;
+    img.votetable-avatar {
+      border-radius: @votetable-player-avatar-size;
+      width: @votetable-player-avatar-size;
+      height: @votetable-player-avatar-size;
+      border: 2px solid #ffffff;
+      box-shadow: 2px 2px 8px -1px #5c5c5c;
       margin-right: -10px;
-    }
-  }
-}
+      position: relative;
 
-.votetable-name-cell {
-  @media (min-width: @screen-xs-min) {
-    width: @votetable-name-cell-width;
-    min-width: @votetable-name-cell-width;
-    max-width: @votetable-name-cell-width;
-  }
+      &:last-child {
+        margin-right: 0px;
+      }
 
-  min-height: @votetable-name-cell-height;
-  height: @votetable-name-cell-height;
-
-  text-align: left;
-  padding: 0 !important;
-
-  .votetable-name-flexhack {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-items: center;
-    padding: 2px 0 !important;
-
-    .votetable-name {
-      display: block;
-      flex: 1;
-      padding-left: 7px;
+      &:hover {
+        opacity: 1;
+      }
     }
 
-    .votetable-character-avatar {
-      border-radius: 4px;
-      float: right;
-      display: block;
-      margin: 3px 1px 3px 5px;
-      width: @votetable-avatar-size;
-      height: @votetable-avatar-size;
-    }
-  }
-}
+    img.votetable-avatar-self {
+      margin-left: -5px;
+      margin-right: 15px;
+      transition: margin .35s ease-in-out;
 
-.votetable-checkbox-cell {
-  padding-left: @votetable-padding;
-  padding-right: @votetable-padding;
-}
-
-.votetable-count {
-  text-align: right;
-  min-width: @votetable-sum-cell-width;
-  padding-left: 0 !important;
-  padding-right: @votetable-padding;
-}
-
-.votetable-count-label {
-  text-align: right;
-  padding: 0px 3px;
-  border-radius: 2px;
-  color: white;
-  display: inline-block;
-  font-weight: 600;
-  font-size: 12px;
-  margin: 0 3px 0 0;
-}
-
-td {
-  text-align: center;
-  vertical-align: middle !important;
-
-  label {
-    padding: 0 !important;
-
-    input[type="checkbox"] {
-      margin-left: 0 !important;
-      position: relative !important;
-      width: @votetable-checkbox-size !important;
-      height: @votetable-checkbox-size !important;
-
-      &[disabled] {
-        cursor: auto;
-        display: none;
-
-        &:checked {
-          display: inherit;
-        }
+      &.votetable-voted {
+        margin-left: @votetable-player-avatar-size + 10px;
+        margin-right: -10px;
       }
     }
   }
-}
-
-.table-container {
-  text-align: center;
 }
 
 h2 {
   font-weight: 900 !important;
   text-transform: uppercase;
   padding: 0px 10px;
+  text-align: center;
 }
 
 .login {
@@ -179,7 +146,10 @@ h2 {
   margin-bottom: 40px;
 }
 
-div.checkbox {
+.character-column {
+  padding: 0;
   margin: 0;
-  line-height: 0;
+  @media (min-width: @screen-xs-min) {
+    .make-md-column(4);
+  }
 }

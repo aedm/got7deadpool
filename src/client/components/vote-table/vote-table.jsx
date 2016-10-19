@@ -71,35 +71,31 @@ class _VoteTable extends React.Component {
   }
 
   renderBetArray(array, showAvatar) {
-    return <div>
-      <Table className="votetable" striped>
-        <tbody>
-        { array.map(bet =>
-            <VoteTableRow key={bet.token} showAvatar={showAvatar}
-                          user={this.props.user} {...this.state.rows[bet.token]}/>)
-        }
-        </tbody>
-      </Table>
+    return <div className="votetable">
+      { array.map(bet =>
+          <VoteTableRow key={bet.token} showAvatar={showAvatar}
+                        user={this.props.user} {...this.state.rows[bet.token]}/>)
+      }
     </div>;
   }
 
   renderReadOnlyTable() {
     return <div className="container">
       <div className="row">
-        <div className="table-container col-md-4">
+        <div className="character-column">
           <h2>Triple score</h2>
           { this.renderBetArray(ThreePointCharacters, true)}
         </div>
-        <div className="table-container col-md-4">
+        <div className="character-column">
           <h2>Double score</h2>
           { this.renderBetArray(TwoPointCharacters, true)}
         </div>
-        <div className="table-container col-md-4">
+        <div className="character-column">
           <h2>Others</h2>
           { this.renderBetArray(OnePointCharacters, true)}
         </div>
       </div>
-      <div className="table-container">
+      <div className="row">
         <h2>Double score events</h2>
         { this.renderBetArray(TwoPointEvents)}
       </div>

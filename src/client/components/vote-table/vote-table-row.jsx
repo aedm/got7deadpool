@@ -53,42 +53,38 @@ export class VoteTableRow extends React.Component {
 
     let vote = this.props.player.vote;
 
-    return <td className="votetable-friend-cell">
-      <div className="votetable-friends-list">
-        <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip">You</Tooltip>}>
-          <img className={`votetable-avatar votetable-avatar-self ${vote ? "votetable-voted" : ""}`}
-               style={{zIndex: this.props.votingPlayers.length + 1}}
-               src={this.props.user.profile.photo || "/asset/avatar50px.jpg"}/>
-        </OverlayTrigger>
-        { this.props.votingPlayers.map((player, index) =>
-            <OverlayTrigger key={index} placement="top"
-                            overlay={<Tooltip id="tooltip">{player.profile.name}</Tooltip>}>
-              <img className="votetable-avatar"
-                   style={{zIndex: `${this.props.votingPlayers.length - index}`}}
-                   src={player.profile.photo || "/asset/avatar50px.jpg"}/>
-            </OverlayTrigger>)}
-      </div>
-    </td>;
+    return <div className="votetable-friends-list">
+      <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip">You</Tooltip>}>
+        <img className={`votetable-avatar votetable-avatar-self ${vote ? "votetable-voted" : ""}`}
+             style={{zIndex: this.props.votingPlayers.length + 1}}
+             src={this.props.user.profile.photo || "/asset/avatar50px.jpg"}/>
+      </OverlayTrigger>
+      { this.props.votingPlayers.map((player, index) =>
+          <OverlayTrigger key={index} placement="top"
+                          overlay={<Tooltip id="tooltip">{player.profile.name}</Tooltip>}>
+            <img className="votetable-avatar"
+                 style={{zIndex: `${this.props.votingPlayers.length - index}`}}
+                 src={player.profile.photo || "/asset/avatar50px.jpg"}/>
+          </OverlayTrigger>)}
+    </div>;
   }
 
   render() {
-    let voteCell = null;
+    let voteCount = null;
     if (this.props.voteCount >= 0) {
       let background = this.getBackgroundColor();
-      voteCell = <td className="votetable-count">
+      voteCount = <div className="votetable-count">
         <div className="votetable-count-label" style={{"backgroundColor": background}}>
           {this.props.voteCount}
         </div>
-      </td>;
-    } else {
-      voteCell = <td className="votetable-count"/>;
+      </div>;
     }
 
-    let playerCell = null;
+    let voteCheckbox = null;
     if (this.props.player) {
-      playerCell = <td className="votetable-checkbox-cell">
+      voteCheckbox = <div className="votetable-checkbox-cell">
         <CustomCheckbox checked={this.state.vote} onChange={() => this.handleToggle()}/>
-      </td>;
+      </div>;
     }
 
     let avatar = null;
@@ -97,17 +93,15 @@ export class VoteTableRow extends React.Component {
                     src={`/characters/${this.props.bet.token}.jpg`}/>
     }
 
-    return <tr key={this.props.token}>
-      { voteCell }
-      <td className="votetable-name-cell">
-        <div className="votetable-name-flexhack">
-          { avatar }
-          <div className="votetable-name">{this.props.bet.name}</div>
-        </div>
-      </td>
-      { playerCell }
+    return <div className="votetable-vote" key={this.props.token}>
       { this.renderFriendsList() }
-    </tr>;
+      <div className="votetable-row">
+        { voteCount }
+        { avatar }
+        <div className="votetable-name">{this.props.bet.name}</div>
+        { voteCheckbox }
+      </div>
+    </div>;
   }
 }
 
