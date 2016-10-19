@@ -33,7 +33,7 @@ deploy_to_aedm_us:
   image: sequenceiq/alpine-curl
   stage: deploy
   script:
-  - curl http://aedm.us:9000/hooks/got-update?token=$AEDM_US_DEPLOY_TOKEN
+  - curl $AEDM_US_DEPLOY_URL?token=$AEDM_US_DEPLOY_TOKEN
   only:
   - release
 
