@@ -1,9 +1,10 @@
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
-import {Button, Table} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 
 import {VoteTable} from '/src/client/components/vote-table/vote-table.jsx';
 import {Helpers} from '/src/client/helpers.js';
+import {RuleTable} from '/src/client/components/vote-table/rule-table.jsx';
 
 export class _GamePage extends React.Component {
   renderLoginButton() {
@@ -36,30 +37,9 @@ export class _GamePage extends React.Component {
         </div>
         <div className="gameinfo-box">
           <h2>Scoring</h2>
-          <p>Scores in this chart will get multiplied by the value of each character.</p>
-          <Table className="rule-table">
-            <tbody>
-            <tr>
-              <td className="rules-empty"/>
-              <td colSpan="2">Your prediction</td>
-            </tr>
-            <tr>
-              <td className="rules-empty"/>
-              <td>Dies</td>
-              <td>Survives</td>
-            </tr>
-            <tr>
-              <td>Dies in the show</td>
-              <td>2</td>
-              <td>-1</td>
-            </tr>
-            <tr>
-              <td>Survives in the show</td>
-              <td>0</td>
-              <td>1</td>
-            </tr>
-            </tbody>
-          </Table>
+          <p>Scores in this chart will get multiplied by the value of each character. See
+            some <a href="/rules">examples</a>.</p>
+          <RuleTable />
         </div>
       </div>
     </div>;
@@ -67,16 +47,11 @@ export class _GamePage extends React.Component {
 
   render() {
     return <div>
-      <div className="game-title">Season 7 Death Pool</div>
       { this.renderRules() }
       <div className="login">
         { this.renderLoginButton() }
       </div>
       <VoteTable/>
-      <div className="text-center">It's better to play with friends!&nbsp;
-        <a href="http://www.facebook.com/sharer/sharer.php?u=got.aedm.us">Share on Facebook</a>.
-        <br /><br/>
-      </div>
     </div>;
   }
 }

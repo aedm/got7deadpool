@@ -1,7 +1,7 @@
 import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
-import {Table, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 
 import {Players} from '/src/collections/players.js';
 import {
@@ -115,8 +115,26 @@ class _VoteTable extends React.Component {
     </div>;
   }
 
+  renderFooter() {
+    return <div className="text-center">It's better to play with friends!&nbsp;
+      <a href="http://www.facebook.com/sharer/sharer.php?u=got.aedm.us">Share on Facebook</a>.
+      <br /><br/>
+    </div>;
+  }
+
   render() {
-    return this.props.currentPlayer ? this.renderPlayerTable() : this.renderReadOnlyTable();
+    if (this.props.isLoggingIn) return null;
+
+    if (!this.props.subReady) {
+      return <div className="login">
+        <Button disabled>Loading...</Button>
+      </div>;
+    }
+
+    return <div>
+      { this.props.currentPlayer ? this.renderPlayerTable() : this.renderReadOnlyTable() }
+      { this.renderFooter() }
+    </div>;
   }
 }
 
@@ -128,13 +146,15 @@ _VoteTable.propTypes = {
 };
 
 export const VoteTable = createContainer(() => {
-  Meteor.subscribe("player/sub/friends");
+  let sub = Meteor.subscribe("player/sub/friends");
   let userId = Meteor.userId();
   let playerSelector = userId ? {_id: {$ne: userId}} : {};
   let voteCounts = AppState.findOne("votecount");
 
   return {
+    subReady: sub.ready(),
     user: Meteor.user(),
+    isLoggingIn: Meteor.loggingIn(),
     players: Players.find(playerSelector, {sort: {registrationTime: -1}}).fetch(),
     currentPlayer: userId ? Players.findOne(userId) : null,
     voteCounts,

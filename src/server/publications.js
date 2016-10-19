@@ -7,7 +7,7 @@ import {AppState} from '/src/collections/app-state.js';
 // Publishes the last few registered players
 Meteor.publishComposite("player/sub/friends", {
   find: function () {
-    if (!this.userId) throw new Meteor.Error("must log in");
+    if (!this.userId) return null;
     return Meteor.users.find(this.userId);
   },
   children: [{

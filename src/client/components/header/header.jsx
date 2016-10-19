@@ -8,11 +8,10 @@ import {Helpers} from '/src/client/helpers.js';
 export const Header = createContainer(() => {
   return {
     user: Meteor.user(),
-    page: FlowRouter.current(),
   };
-}, function ({user, page}) {
+}, function ({user, selectedHeaderPage}) {
   let activePage = 1;
-  switch (page) {
+  switch (selectedHeaderPage) {
     case "points":
       activePage = 2;
       break;
@@ -30,9 +29,9 @@ export const Header = createContainer(() => {
     <Navbar.Collapse>
       <Nav activeKey={activePage}>
         <NavItem eventKey={1} href="/">Votes</NavItem>
-        <NavItem eventKey={2} href="#">Points</NavItem>
-        <NavItem eventKey={3} href="#">Rules</NavItem>
-        <NavItem eventKey={4} href="#">About</NavItem>
+        { !user ? null : <NavItem eventKey={2} href="/results">Results</NavItem> }
+        <NavItem eventKey={3} href="/rules">Rules</NavItem>
+        <NavItem eventKey={4} href="/about">About</NavItem>
       </Nav>
       <Nav pullRight>
         { !user ?
