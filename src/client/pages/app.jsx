@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {GamePage} from '/src/client/components/game-page/game-page.jsx';
-import {WelcomeScreen} from '/src/client/components/welcome-screen/welcome-screen.jsx';
+import {WelcomeScreen} from '/src/client/pages/welcome-screen/welcome-screen.jsx';
 import {Header} from '/src/client/components/header/header.jsx';
 
 export class App extends React.Component {
@@ -16,8 +15,14 @@ export class App extends React.Component {
     }
 
     return <div>
-      <Header />
-      <GamePage />
+      <Header selectedHeaderPage={this.props.selectedHeaderPage} />
+      <div className="game-title">Season 7 Death Pool</div>
+      { this.props.content() }
     </div>;
   }
 }
+
+App.propTypes = {
+  content: React.PropTypes.func.isRequired,
+};
+
