@@ -30,7 +30,7 @@ build_docker_image:
   - release
 
 deploy_to_aedm_us:
-  image: byrnedo/alpine-curl
+  image: sequenceiq/alpine-curl
   stage: deploy
   script:
   - curl http://aedm.us:9000/hooks/got-update?token=$AEDM_US_DEPLOY_TOKEN
