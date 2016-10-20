@@ -23,7 +23,8 @@ export class VoteTableRow extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (nextState.vote !== this.state.vote
         || nextProps.voteCount != this.props.voteCount
-        || !_.isEqual(nextProps.votes, this.props.votes)) return true;
+        || nextProps.votingPlayers.length != this.props.votingPlayers.length
+        || !nextProps.votingPlayers.every((x, i) => x === this.props.votingPlayers[i])) return true;
 
     // TODO: this is bug, but if the max vote changes, updating everyting is really slow. See #7
     // if (nextProps.maxVoteCount != this.props.maxVoteCount) return true;
