@@ -12,7 +12,7 @@ export const Header = createContainer(() => {
 }, function ({user, selectedHeaderPage}) {
   let activePage = 1;
   switch (selectedHeaderPage) {
-    case "points":
+    case "results":
       activePage = 2;
       break;
     case "rules":
