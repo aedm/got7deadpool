@@ -9,16 +9,14 @@ import {RulesPage} from '/src/client/pages/rules-page/rules-page.jsx';
 import {AboutPage} from '/src/client/pages/about-page/about-page.jsx';
 
 
-let defineRoute = (label, page) => {
-  FlowRouter.route("/" + label, {
-    name: label,
-    action() {
-      mount(App, {content: page, selectedHeaderPage: label});
-    }
-  });
-};
+let allRoutes = FlowRouter.group({
+  name: 'public',
+  triggersEnter: [() => {
+    window.scrollTo(0, 0);
+  }],
+});
 
-let loggedInRoutes = FlowRouter.group({
+let loggedInRoutes = allRoutes.group({
   name: "loggedIn",
   triggersEnter: [(context, redirect) => {
     // If a user is not logged in, throw her back to the login page
@@ -28,6 +26,16 @@ let loggedInRoutes = FlowRouter.group({
     window.scrollTo(0, 0);
   }]
 });
+
+
+let defineRoute = (label, page) => {
+  allRoutes.route("/" + label, {
+    name: label,
+    action() {
+      mount(App, {content: page, selectedHeaderPage: label});
+    }
+  });
+};
 
 let defineLoginRoute = (label, page) => {
   loggedInRoutes.route("/" + label, {
@@ -39,7 +47,7 @@ let defineLoginRoute = (label, page) => {
 };
 
 
-FlowRouter.route('/', {
+allRoutes.route('/', {
   action() {
     mount(App, {content: () => (<GamePage />)});
   }
