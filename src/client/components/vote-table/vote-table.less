@@ -93,7 +93,6 @@
 
     text-align: left;
     width: 50%;
-    //background-color: rgba(255, 0, 0, 0.2);
     height: @votetable-name-cell-height;
     position: absolute;
     right: 0;
@@ -124,7 +123,9 @@
     img.votetable-avatar-self {
       margin-left: -5px;
       margin-right: 15px;
-      transition: margin .35s ease-in-out;
+      @media (min-width: @screen-sm-min) {
+        transition: margin .35s ease-in-out;
+      }
 
       &.votetable-voted {
         margin-left: @votetable-player-avatar-size + 10px;

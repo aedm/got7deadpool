@@ -4,7 +4,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 export class FriendsList extends React.Component {
   shouldComponentUpdate(nextProps) {
-    return nextProps.vote !== this.props.vote
+    return nextProps.player.vote !== this.props.player.vote
         || nextProps.votingPlayers.length != this.props.votingPlayers.length
         || !nextProps.votingPlayers.every((x, i) => x === this.props.votingPlayers[i]);
   }
