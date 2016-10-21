@@ -1,56 +1,25 @@
 import {Meteor} from 'meteor/meteor';
 import React from 'react';
 
-import {CustomCheckbox} from '/src/client/components/custom-checkbox/custom-checkbox.jsx';
 import {CountLabel} from '/src/client/components/vote-table/count-label.jsx';
 import {FriendsList} from '/src/client/components/vote-table/friends-list.jsx';
+import {ShowBet} from '/src/client/components/vote-table/show-bet.jsx';
 
 
 export class VoteTableRow extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      vote: this.props.player ? this.props.player.vote : null,
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      vote: nextProps.player ? nextProps.player.vote : null,
-    });
-  }
-
-  handleToggle() {
-    let newState = !this.state.vote;
-    this.setState({vote: newState});
-
-    setTimeout(() => Meteor.call("player/bet", this.props.bet.token, newState), 0);
+  handleToggle(newVote) {
+    setTimeout(() => Meteor.call("player/bet", this.props.bet.token, newVote), 0);
   }
 
   render() {
-    let voteCheckbox = null;
-    if (this.props.player) {
-      voteCheckbox = <div className="votetable-checkbox-cell">
-        <CustomCheckbox checked={this.state.vote} onChange={() => this.handleToggle()}/>
-      </div>;
-    }
-
-    let avatar = null;
-    if (this.props.showAvatar) {
-      avatar = <img className="votetable-character-avatar"
-                    src={`/characters/${this.props.bet.token}.jpg`}/>
-    }
-
     return <div className="votetable-vote" key={this.props.token}>
       { !this.props.player ? null :
           <FriendsList player={this.props.player} votingPlayers={this.props.votingPlayers}
                        user={this.props.user}/> }
       <div className="votetable-row">
         <CountLabel voteCount={this.props.voteCount} maxVoteCount={this.props.maxVoteCount}/>
-        { avatar }
-        <div className="votetable-name">{this.props.bet.name}</div>
-        { voteCheckbox }
+        <ShowBet handleToggle={this.handleToggle.bind(this)} bet={this.props.bet}
+                 player={this.props.player} showAvatar={this.props.showAvatar}/>
       </div>
     </div>;
   }

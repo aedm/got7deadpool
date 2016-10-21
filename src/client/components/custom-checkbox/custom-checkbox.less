@@ -14,8 +14,10 @@ div.custom-checkbox {
   text-align: center;
   color: #d70000;
   &:hover {
-    background: #e7ecfa;
-    color: #d22;
+    @media (min-width: @screen-sm-min) {
+      background: #e7ecfa;
+      color: #d22;
+    }
   }
   .glyphicon {
     font-size: @custom-checkbox-size - 10px;
