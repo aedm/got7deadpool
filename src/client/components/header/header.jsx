@@ -9,11 +9,14 @@ class Header_ extends React.Component {
     super(props);
     this.state = {
       dropdownToggled: false,
-    }
+    };
+    this.isMobile = Helpers.isMobile();
   }
 
   toggleDropdown() {
-    this.setState({dropdownToggled: !this.state.dropdownToggled});
+    if (this.isMobile) {
+      this.setState({dropdownToggled: !this.state.dropdownToggled});
+    }
   }
 
   render() {
