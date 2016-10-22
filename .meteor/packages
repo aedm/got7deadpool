@@ -7,7 +7,6 @@
 ## Meteor core
 meteor-base@1.0.4             # Packages every Meteor app needs to have
 mongo@1.1.12_1                   # The database Meteor supports right now
-jquery@1.11.9                  # Helpful client-side library
 tracker@1.1.0                 # Meteor's client-side reactive programming library
 es5-shim@4.6.14_1                # ECMAScript 5 compatibility for older browsers.
 
@@ -22,14 +21,12 @@ react-meteor-data
 
 ## Webapp basics
 kadira:flow-router
-blaze-html-templates@1.0.4
 accounts-password@1.3.0
 
 ## Style
 
 ## Testing
 dispatch:mocha-phantomjs
-practicalmeteor:mocha
 practicalmeteor:chai
 practicalmeteor:sinon
 xolvio:cleaner
@@ -43,3 +40,5 @@ reywood:publish-composite
 meteorhacks:kadira
 okgrow:analytics
 shell-server
+static-html
+practicalmeteor:mocha

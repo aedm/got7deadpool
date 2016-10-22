@@ -2,6 +2,11 @@ import React from 'react';
 
 
 export class CountLabel extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    return nextProps.voteCount != this.props.voteCount ||
+        nextProps.maxVoteCount != this.props.maxVoteCount;
+  }
+
   // Generates background color for the "sum" cell
   getBackgroundColor() {
     let ratio = this.props.voteCount / this.props.maxVoteCount;

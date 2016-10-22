@@ -3,7 +3,7 @@ import {assert} from 'meteor/practicalmeteor:chai';
 import {stubs} from 'meteor/practicalmeteor:sinon';
 import {resetDatabase} from 'meteor/xolvio:cleaner';
 
-import '/src/server/methods.js';
+import '/src/methods.js';
 import {Players} from '/src/collections/players.js';
 import {AppState} from '/src/collections/app-state.js';
 

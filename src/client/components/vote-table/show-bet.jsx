@@ -17,9 +17,9 @@ export class ShowBet extends React.Component {
     });
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return nextState.vote !== this.state.vote;
-  // }
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.vote !== this.state.vote;
+  }
 
   handleToggle() {
     let newVote = !this.state.vote;

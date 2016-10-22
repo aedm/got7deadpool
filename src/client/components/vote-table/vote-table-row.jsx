@@ -7,6 +7,14 @@ import {ShowBet} from '/src/client/components/vote-table/show-bet.jsx';
 
 
 export class VoteTableRow extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    return nextProps.voteCount !== this.props.voteCount ||
+        nextProps.maxVoteCount !== this.props.maxVoteCount ||
+        nextProps.player.vote !== this.props.player.vote ||
+        nextProps.votingPlayers.length !== this.props.votingPlayers.length ||
+        !nextProps.votingPlayers.every((x, i) => x === this.props.votingPlayers[i]);
+  }
+
   handleToggle(newVote) {
     setTimeout(() => Meteor.call("player/bet", this.props.bet.token, newVote), 0);
   }
