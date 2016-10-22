@@ -13,7 +13,7 @@ export const Helpers = {
       requestPermissions: ["user_friends"],
 
       // Mobile browsers don't seem to like "popup" login, use "redirect" instead
-      loginStyle: isMobile() ? "redirect" : "popup",
+      loginStyle: Helpers.isMobile() ? "redirect" : "popup",
     });
   }
 };
