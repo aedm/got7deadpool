@@ -37,7 +37,7 @@ export class _GamePage extends React.Component {
         </div>
         <div className="gameinfo-box">
           <h2>Scoring</h2>
-          <p>You'll get points for your predictions, depending on what actually happens in the show.
+          <p>You'll get points for your predictions, according to the chart below.
             See some <a href="/rules">examples</a>.</p>
           <RuleTable />
         </div>
