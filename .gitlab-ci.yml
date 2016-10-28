@@ -14,9 +14,9 @@ meteor_tests:
   - curl https://install.meteor.com/ | sh
   - export METEOR_NO_RELEASE_CHECK=true
   - meteor --unsafe-perm remove meteorhacks:kadira
-  - meteor --unsafe-perm npm install
-  - meteor --unsafe-perm npm run-script test
-  - meteor --unsafe-perm npm run-script test-full
+  - meteor npm install
+  - meteor npm run-script test
+  - meteor npm run-script test-full
 
 build_docker_image:
   image: gitlab/dind:latest
