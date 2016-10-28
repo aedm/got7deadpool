@@ -10,7 +10,7 @@ ADD . /app
 WORKDIR /app
 
 RUN meteor npm install
-RUN meteor build --directory /meteor-app
+RUN meteor --unsafe-perm build --directory /meteor-app
 WORKDIR /meteor-app/bundle/programs/server
 RUN meteor npm install
 
