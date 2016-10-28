@@ -12,10 +12,11 @@ meteor_tests:
   - locale-gen en_US.UTF-8
   - localedef -i en_GB -f UTF-8 en_US.UTF-8
   - curl https://install.meteor.com/ | sh
-  - meteor remove meteorhacks:kadira --unsafe-perm
-  - meteor npm install
-  - meteor npm run-script test
-  - meteor npm run-script test-full
+  - export METEOR_NO_RELEASE_CHECK=true
+  - meteor --unsafe-perm remove meteorhacks:kadira
+  - meteor --unsafe-perm npm install
+  - meteor --unsafe-perm npm run-script test
+  - meteor --unsafe-perm npm run-script test-full
 
 build_docker_image:
   image: gitlab/dind:latest
