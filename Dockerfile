@@ -5,7 +5,7 @@ ADD . /app
 WORKDIR /app
 
 RUN meteor npm install
-RUN meteor --allow-superuser --directory /meteor-app
+RUN meteor --allow-superuser build --directory /meteor-app
 WORKDIR /meteor-app/bundle/programs/server
 RUN meteor npm install
 
