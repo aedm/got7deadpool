@@ -4,14 +4,13 @@ stages:
   - deploy
 
 meteor_tests:
-  image: debian:latest
+  image: aedm/meteor:1.4.2.1
   stage: test
   script:
   - apt-get update
-  - apt-get -y install curl locales libfontconfig python g++ make
+  - apt-get -y install locales libfontconfig
   - locale-gen en_US.UTF-8
   - localedef -i en_GB -f UTF-8 en_US.UTF-8
-  - curl https://install.meteor.com/ | sh
   - export METEOR_NO_RELEASE_CHECK=true
   - meteor --unsafe-perm remove meteorhacks:kadira
   - meteor npm install
