@@ -21,7 +21,7 @@ react-meteor-data
 
 ## Webapp basics
 kadira:flow-router
-accounts-password@1.3.1
+accounts-password@1.3.2
 
 ## Style
 
@@ -34,7 +34,7 @@ xolvio:cleaner
 ## Others
 ecmascript@0.5.9
 huttonr:bootstrap3
-less@2.7.6
+less@2.7.7
 accounts-facebook@1.0.11
 reywood:publish-composite
 meteorhacks:kadira
