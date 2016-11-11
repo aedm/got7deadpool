@@ -1,16 +1,11 @@
 # Dockerfile
-FROM debian
-
-# Install Meteor
-RUN apt-get update
-RUN apt-get -y install curl procps python g++ make
-RUN curl https://install.meteor.com/ | sh   # Meteor 1.4.2
+FROM aedm/meteor:1.4.2.1
 
 ADD . /app
 WORKDIR /app
 
 RUN meteor npm install
-RUN meteor --unsafe-perm build --directory /meteor-app
+RUN meteor --allow-superuser --directory /meteor-app
 WORKDIR /meteor-app/bundle/programs/server
 RUN meteor npm install
 
