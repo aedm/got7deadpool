@@ -26,7 +26,6 @@ build_docker_image:
   - docker info
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
   - curl https://aedm.github.io/minimeteor/minimeteor.sh | sh -s - registry.gitlab.com/aedm/got7-death-pool:latest
-  - docker push registry.gitlab.com/aedm/got7-death-pool:$CI_BUILD_REF
   - docker push registry.gitlab.com/aedm/got7-death-pool:latest
   only:
   - release

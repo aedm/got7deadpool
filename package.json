@@ -1,6 +1,5 @@
 {
-  "name": "kickstart-meteor-react-router",
-  "private": "true",
+  "name": "game-of-thrones-death-pool",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",
