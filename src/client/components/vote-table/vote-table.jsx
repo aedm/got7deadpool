@@ -112,6 +112,9 @@ class _VoteTable extends React.Component {
       { this.renderBetArray(OnePointCharacters, true)}
       <h2>Double score events</h2>
       { this.renderBetArray(TwoPointEvents)}
+      <div className="text-center"><p>Your choices were automatically saved. You can change them
+        anytime before the season starts.</p>
+      </div>
     </div>;
   }
 
