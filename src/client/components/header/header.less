@@ -1,34 +1,6 @@
-@import '/src/client/stylesheets/bootstrap-variables.less';
-
 .header-photo {
   width: 35px;
   height: 35px;
   margin: 0 10px;
-  position: absolute;
-  left: -45px;
-  top: 6px;
   border-radius: 50px;
-}
-
-@media (max-width: @screen-xs-max) {
-  .navbar {
-    .navbar-toggle {
-      position: absolute;
-      bottom: 0px;
-      right: 0px;
-      z-index: 2000;
-    }
-
-    .navbar-collapse {
-      @media (max-width: @screen-sm-min) {
-        background-color: #000;
-        text-align: left;
-      }
-      transition: none !important;
-
-      .active {
-        background-color: #00b3ee;
-      }
-    }
-  }
 }
