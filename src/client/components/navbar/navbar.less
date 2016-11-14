@@ -37,11 +37,19 @@ nav.nav-bar {
       align-items: center;
 
       padding: 0px 15px;
-      color: white;
+      color: #c1c1c1;
       cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s linear, color 0.2s linear;
+
+      &.nav-item-active {
+        border-bottom: 2px solid orange;
+        color: white;
+      }
 
       &:hover {
         background-color: rgba(0, 188, 255, 0.3);
+        color: white;
       }
 
       &:active, &:hover, &:link, &:visited {
@@ -116,6 +124,11 @@ nav.nav-bar {
         .nav-item {
           display: block;
           padding: 10px @sidemenu-spacing;
+          border-bottom: none;
+
+          &.nav-item-active {
+            background-color: rgba(255, 119, 0, 0.2);
+          }
         }
       }
     }

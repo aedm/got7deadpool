@@ -10,9 +10,8 @@ class Header_ extends React.Component {
   }
 
   render() {
-    let activePage = this.props.selectedHeaderPage;
     return <NavBar>
-      <NavGroup left activeKey={activePage}>
+      <NavGroup left activeKey={this.props.selectedHeaderPage || "votes"}>
         <NavItem key="votes" href="/">Votes</NavItem>
         { !this.props.user ? null : <NavItem key="results" href="/results">Results</NavItem> }
         <NavItem key="rules" href="/rules">Rules</NavItem>

@@ -22,7 +22,8 @@ export class NavBar extends React.Component {
         </div>
         {this.props.children.map((child, index) => React.cloneElement(child, {
           key: index,
-          onItemClicked: () => this.setState({opened: false})
+          onItemClicked: () => this.setState({opened: false}),
+          activeKey: this.props.activeKey || child.props.activeKey,
         }))}
       </div>
     </nav>
@@ -31,16 +32,19 @@ export class NavBar extends React.Component {
 
 export class NavGroup extends React.Component {
   render() {
-    let classNames = ["nav-group"];
-    if (this.props.left) classNames.push("nav-group-left");
-    if (this.props.right) classNames.push("nav-group-right");
+    let classes = ["nav-group"];
+    if (this.props.left) classes.push("nav-group-left");
+    if (this.props.right) classes.push("nav-group-right");
 
-    return <div className={classNames.join(" ")}>
-      {React.Children.map(this.props.children, (child, index) => child == null ? null :
-          React.cloneElement(child, {
-            key: index,
-            onItemClicked: this.props.onItemClicked,
-          }))}
+    return <div className={classes.join(" ")}>
+      { React.Children.map(this.props.children, (child, index) => {
+        if (!child) return null;
+        return React.cloneElement(child, {
+          key: index,
+          isActive: (!!child.key && child.key === this.props.activeKey),
+          onItemClicked: this.props.onItemClicked,
+        });
+      })}
     </div>
   }
 }
@@ -59,12 +63,16 @@ export class NavItem extends React.Component {
   }
 
   render() {
+    let classes = ["nav-item"];
+    if (this.props.isActive) classes.push("nav-item-active");
+    let className = classes.join(" ");
+
     if (this.props.href) {
-      return <a className="nav-item" href={this.props.href} onClick={ev => this.handleClick(ev)}>
+      return <a className={className} href={this.props.href} onClick={ev => this.handleClick(ev)}>
         {this.props.children}
       </a>;
     }
-    return <div className="nav-item" onClick={ev => this.handleClick(ev)}>
+    return <div className={className} onClick={ev => this.handleClick(ev)}>
       {this.props.children}
     </div>;
   }

@@ -96,7 +96,7 @@ class _VoteTable extends React.Component {
         </div>
       </div>
       <div className="row">
-        <h2>Double score events</h2>
+        <h2 className="table-header">Double score events</h2>
         { this.renderBetArray(TwoPointEvents)}
       </div>
     </div>;
@@ -106,11 +106,11 @@ class _VoteTable extends React.Component {
     return <div className="table-container">
       <h2>Triple score characters</h2>
       { this.renderBetArray(ThreePointCharacters, true)}
-      <h2>Double score characters</h2>
+      <h2 className="table-header">Double score characters</h2>
       { this.renderBetArray(TwoPointCharacters, true)}
-      <h2>Other characters</h2>
+      <h2 className="table-header">Other characters</h2>
       { this.renderBetArray(OnePointCharacters, true)}
-      <h2>Double score events</h2>
+      <h2 className="table-header">Double score events</h2>
       { this.renderBetArray(TwoPointEvents)}
       <div className="text-center"><p>Your choices were automatically saved. You can change them
         anytime before the season starts.</p>
@@ -121,7 +121,7 @@ class _VoteTable extends React.Component {
   renderFooter() {
     return <div className="text-center">It's better to play with friends!&nbsp;
       <a href="http://www.facebook.com/sharer/sharer.php?u=got.aedm.us">Share on Facebook</a>.
-      <br /><br/>
+      <br /><br/><br /><br/>
     </div>;
   }
 
