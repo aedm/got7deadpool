@@ -29,7 +29,7 @@ class App_ extends React.Component {
 
     return <div>
       <Header selectedHeaderPage={this.props.selectedHeaderPage}/>
-      <div className="game-title">Season 7 Death Pool</div>
+      <div className="game-title">Season 7 Dead Pool</div>
       { this.props.content() }
     </div>;
   }
