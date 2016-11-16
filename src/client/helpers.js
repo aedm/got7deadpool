@@ -10,7 +10,7 @@ export const Helpers = {
 
   facebookLogin: function () {
     Meteor.loginWithFacebook({
-      requestPermissions: ["user_friends"],
+      requestPermissions: ["user_friends", "email"],
 
       // Mobile browsers don't seem to like "popup" login, use "redirect" instead
       loginStyle: Helpers.isMobile() ? "redirect" : "popup",
