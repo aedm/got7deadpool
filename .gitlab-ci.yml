@@ -4,7 +4,7 @@ stages:
   - deploy
 
 meteor_tests:
-  image: aedm/meteor:1.4.2.1
+  image: aedm/meteor:1.4.3.2
   stage: test
   script:
   - export METEOR_NO_RELEASE_CHECK=true
