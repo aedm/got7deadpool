@@ -7,8 +7,10 @@ meteor_tests:
   image: aedm/meteor:1.4.3.2
   stage: test
   script:
+  - apt-get install -y bzip2
   - export METEOR_NO_RELEASE_CHECK=true
-  - meteor --unsafe-perm remove meteorhacks:kadira
+  - export METEOR_ALLOW_SUPERUSER=1
+  - meteor --allow-superuser remove meteorhacks:kadira
   - meteor npm install
   - meteor npm run-script test
   - meteor npm run-script test-full
