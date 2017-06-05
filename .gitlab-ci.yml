@@ -4,7 +4,7 @@ stages:
   - deploy
 
 meteor_tests:
-  image: aedm/meteor:1.4.3.2
+  image: aedm/meteor:1.5
   stage: test
   script:
   - apt-get install -y bzip2
@@ -18,7 +18,7 @@ meteor_tests:
   - release
 
 build_docker_image:
-  image: gitlab/dind:latest
+  image: docker/dind
   stage: build
   script:
   - docker info
