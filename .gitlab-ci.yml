@@ -10,7 +10,6 @@ meteor_tests:
   - apt-get install -y bzip2
   - export METEOR_NO_RELEASE_CHECK=true
   - export METEOR_ALLOW_SUPERUSER=1
-  - meteor --allow-superuser remove meteorhacks:kadira
   - meteor npm install
   - meteor npm run-script test
   - meteor npm run-script test-full
