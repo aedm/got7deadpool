@@ -18,7 +18,7 @@ meteor_tests:
   - release
 
 build_docker_image:
-  image: docker/dind
+  image: docker
   stage: build
   script:
   - docker info
