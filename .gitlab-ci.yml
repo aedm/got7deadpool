@@ -18,12 +18,13 @@ meteor_tests:
   - release
 
 build_docker_image:
-  image: docker:dind
+  image: gitlab/dind
   stage: build
   script:
   - docker info
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-  - curl https://aedm.github.io/minimeteor/build.sh | sh -s registry.gitlab.com/aedm/got7-death-pool:$CI_BUILD_REF registry.gitlab.com/aedm/got7-death-pool:latest
+  #- curl https://aedm.github.io/minimeteor/build.sh | sh -s registry.gitlab.com/aedm/got7-death-pool:$CI_BUILD_REF registry.gitlab.com/aedm/got7-death-pool:latest
+  - docker build . -t registry.gitlab.com/aedm/got7-death-pool:$CI_BUILD_REF registry.gitlab.com/aedm/got7-death-pool:latest
   - docker push registry.gitlab.com/aedm/got7-death-pool:$CI_BUILD_REF
   - docker push registry.gitlab.com/aedm/got7-death-pool:latest
   only:
