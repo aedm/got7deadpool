@@ -18,9 +18,9 @@ meteor_tests:
   - release
 
 build_docker_image:
-  image: docker
+  image: docker:1.13
   services:
-  - docker:dind
+  - docker:1.13-dind
   stage: build
   script:
   - docker info
