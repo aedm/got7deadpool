@@ -19,7 +19,8 @@ meteor_tests:
 
 build_docker_image:
   image: docker
-  service: docker:dind
+  service:
+  - docker:dind
   stage: build
   script:
   - docker info
