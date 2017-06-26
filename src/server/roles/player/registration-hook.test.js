@@ -4,9 +4,9 @@ import {stubs} from 'meteor/practicalmeteor:sinon';
 import {resetDatabase} from 'meteor/xolvio:cleaner';
 import fbgraph from 'fbgraph';
 
-import '/src/methods.js';
+import '/src/server/roles/player/methods.js';
 import {Players} from '/src/collections/players.js';
-import {onCreateUser, onLogin} from '/src/server/registration-hook.js';
+import {onCreateUser, onLogin} from '/src/server/roles/player/registration-hook.js';
 
 
 describe('facebook integration', function () {

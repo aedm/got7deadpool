@@ -152,7 +152,7 @@ export const VoteTable = createContainer(() => {
   let sub = Meteor.subscribe("player/sub/friends");
   let userId = Meteor.userId();
   let playerSelector = userId ? {_id: {$ne: userId}} : {};
-  let voteCounts = AppState.findOne("votecount");
+  let voteCounts = AppState.findOne("voteCount");
 
   return {
     subReady: sub.ready(),

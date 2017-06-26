@@ -1,11 +1,11 @@
-import {Meteor} from "meteor/meteor";
 import {Players} from '/src/collections/players.js';
 import {AppState} from '/src/collections/app-state.js';
 import {Bets} from '/src/game/bets.js';
 
 
-Meteor.methods({
-  "util/countVotes": function () {
+export const Calculator = {
+  // Recounts the sum of votes based on individual player votes
+  countVotes() {
     let deathCount = {};
     _.keys(Bets).forEach(key => deathCount[key] = 0);
 
@@ -14,6 +14,8 @@ Meteor.methods({
       player.votes.forEach(token => deathCount[token]++);
     });
 
-    AppState.update("votecount", deathCount);
+    AppState.update("voteCount", deathCount);
   },
-});
+};
+
+
