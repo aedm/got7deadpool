@@ -1,4 +1,5 @@
 import {Meteor} from "meteor/meteor";
+import {check} from 'meteor/check';
 
 import {Rights} from "/src/lib/rights.js";
 import {Logger} from "/src/lib/logger.js";
@@ -27,5 +28,15 @@ const adminMethod = function(name, methodFunction) {
 
 adminMethod("admin/countVotes", function() {
   Calculator.countVotes();
+});
+
+adminMethod("admin/updateGameState", function(params) {
+  check(params.episode, Number);
+  check(params.deadpool, Object);
+  Object.keys(params.deadpool).forEach(key => {
+    check(params.deadpool[key], Number);
+  });
+
+  Calculator.updateGameState(params.episode, params.deadpool);
 });
 
