@@ -8,7 +8,7 @@ import {Logger} from "/src/lib/logger.js";
 export const userMethod = function(name, methodFunction) {
   let methodDef = {};
   methodDef[name] = function() {
-    if (!this.userId) {
+    if (!Meteor.userId()) {
       throw new Meteor.Error("Needs to be logged in.");
     }
     Logger.log(`Method call: "${name}"`);
@@ -27,7 +27,6 @@ export const userMethod = function(name, methodFunction) {
  * @param {Boolean} bet
  */
 userMethod("player/bet", function(betToken, bet) {
-  if (!Meteor.userId()) throw new Meteor.Error("must log in");
   check(betToken, String);
   check(bet, Boolean);
 
