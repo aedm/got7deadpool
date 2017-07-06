@@ -11,7 +11,7 @@ Meteor.startup(function() {
         episode: 0,
 
         // List of dead characters and occurred events.
-        // Map of {character_token: episode_number}
+        // Map of {character_token: {episode: Number, comment: String}}
         deadPool: {},
       }
     }

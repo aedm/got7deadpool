@@ -27,21 +27,16 @@ export const Calculator = {
   },
 
   /**
-   * Updates game state and standings for all players
-   *
-   * @param episode Number last episode
-   * @param deadPool Object {token: episode Number} episodes in which events occured
+   * Calculate player scores and standings
    */
-  updateGameState(episode, deadPool) {
-    check(episode, Number);
-    check(deadPool, Object);
-
+  calculatePlayerScores(players, episode, deadPool) {
     // Calcate score for a range of bets
     function summarizeBets(betArray, playerBets, ep) {
       let score = 0;
       betArray.forEach(bet => {
         let token = bet.token;
-        let isDead = !!deadPool[token] && deadPool[token] <= ep;
+        let isDead = !!deadPool[token] && !!deadPool[token].episode &&
+          deadPool[token].episode <= ep;
         let isVoted = !!playerBets[token];
         if (isDead) {
           score += isVoted ? 2 : -1;
@@ -53,9 +48,8 @@ export const Calculator = {
     }
 
     // Calculate score for all episodes
-    let players = Players.find().fetch();
     players.forEach(player => {
-      Logger.debug("Updating player", player.profile.name);
+      Logger.debug("Updating player", player.profile ? player.profile.name : null);
       let playerBets = {};
       player.votes.forEach(token => {
         playerBets[token] = true;
@@ -86,15 +80,22 @@ export const Calculator = {
         players[i].scores[ep].position = position;
       }
     }
+  },
 
-    players.forEach(player => {
-      Players.update(player._id,
-        {
-          $set: {
-            scores: player.scores,
-          }
-        });
-    });
+  /**
+   * Updates game state and standings for all players
+   *
+   * @param episode Number last episode
+   * @param deadPool Object {token: episode Number} episodes in which events occured
+   */
+  updateGameState(episode, deadPool) {
+    check(episode, Number);
+    check(deadPool, Object);
+
+    let players = Players.find().fetch();
+    Calculator.calculatePlayerScores(players, episode, deadPool);
+
+    players.forEach(player => Players.update(player._id, {$set: {scores: player.scores}}));
 
     AppState.update("gameProgress", {
       episode,

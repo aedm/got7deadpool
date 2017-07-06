@@ -1,5 +1,5 @@
 import {Meteor} from "meteor/meteor";
-import {check} from 'meteor/check';
+import {check, Match} from 'meteor/check';
 
 import {Rights} from "/src/lib/rights.js";
 import {Logger} from "/src/lib/logger.js";
@@ -34,7 +34,8 @@ adminMethod("admin/updateGameState", function(params) {
   check(params.episode, Number);
   check(params.deadpool, Object);
   Object.keys(params.deadpool).forEach(key => {
-    check(params.deadpool[key], Number);
+    check(params.deadpool[key].episode, Match.Maybe(Number));
+    check(params.deadpool[key].comment, Match.Maybe(String));
   });
 
   Calculator.updateGameState(params.episode, params.deadpool);

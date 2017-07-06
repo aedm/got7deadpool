@@ -30,8 +30,8 @@ export const Logger = {
    * Same as log(), but it only works in debug/test mode.
    */
   debug() {
-    if (Meteor.settings.public.isDebug) {
-      if (Meteor.isServer) {
+    if (Meteor.settings.public.isDebug || Meteor.isTest) {
+      if (Meteor.isServer && !Meteor.isTest) {
         console.log.apply(
           null, [`[user:${Meteor.userId()}]`].concat(Array.prototype.slice.call(arguments)));
       } else {
@@ -44,8 +44,8 @@ export const Logger = {
    * Same as error(), but it only works in debug/test mode.
    */
   debugError() {
-    if (Meteor.settings.public.isDebug) {
-      if (Meteor.isServer) {
+    if (Meteor.settings.public.isDebug || Meteor.isTest) {
+      if (Meteor.isServer && !Meteor.isTest) {
         console.error.apply(null, [`[user:${Meteor.userId()}]`].concat(arguments));
       } else {
         console.error.apply(null, arguments);

@@ -1,7 +1,7 @@
 import {Meteor} from "meteor/meteor";
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
-import {Form, Col, Button, FormGroup, FormControl, ControlLabel, Alert} from 'react-bootstrap';
+import {Form, Col, Row, Button, FormGroup, FormControl, ControlLabel, Alert} from 'react-bootstrap';
 
 import {Logger} from "/src/lib/logger.js";
 import {SubmitWithState} from "/src/lib/submit.js";
@@ -33,14 +33,18 @@ class _AdminPage extends React.Component {
 
     let deadpool = {};
     Object.keys(Bets).forEach(token => {
-      let value = this[`token_${token}`].value;
-      if (value) {
-        if (!/^\d+$/.test(value)) {
+      let episode = this[`tokenEpisode_${token}`].value;
+      let comment = this[`tokenComment_${token}`].value;
+      if (episode !== "" || comment !== "") {
+        if (!/^\d*$/.test(episode)) {
           Logger.error(`"${Bets[token].name}" has invalid value`);
           hasErrors = true;
           return;
         }
-        deadpool[token] = parseInt(value);
+        let item = {};
+        if (episode !== "") item["episode"] = parseInt(episode);
+        if (comment !== "") item["comment"] = comment;
+        deadpool[token] = item;
       }
     });
     if (hasErrors) {
@@ -55,13 +59,24 @@ class _AdminPage extends React.Component {
 
   renderBetArray(array) {
     return array.map(bet => {
-        let value = this.props.gameProgress.deadPool[bet.token];
+        let deadPoolItem = this.props.gameProgress.deadPool[bet.token];
+        let episode = deadPoolItem ? deadPoolItem.episode : null;
+        let comment = deadPoolItem ? deadPoolItem.comment : null;
         return <FormGroup key={bet.token}>
-          <Col componentClass={ControlLabel} sm={6}>{bet.name}</Col>
-          <Col sm={2}>
-            <FormControl type="text"
-                         defaultValue={value}
-                         inputRef={x => this[`token_${bet.token}`] = x}/>
+          <Col componentClass={ControlLabel} sm={4}>{bet.name}</Col>
+          <Col sm={8}>
+            <Row>
+              <Col sm={4}>
+                <FormControl type="text"
+                             defaultValue={episode}
+                             placeholder="episode"
+                             inputRef={x => this[`tokenEpisode_${bet.token}`] = x}/>
+              </Col>
+            </Row>
+            <FormControl type="text" className="bet-comment"
+                         defaultValue={comment}
+                         placeholder="comment"
+                         inputRef={x => this[`tokenComment_${bet.token}`] = x}/>
           </Col>
         </FormGroup>;
       }
@@ -84,7 +99,7 @@ class _AdminPage extends React.Component {
         <h2>You must be this tall to die</h2>
         <Form horizontal>
           <FormGroup>
-            <Col componentClass={ControlLabel} sm={6}>Current episode</Col>
+            <Col componentClass={ControlLabel} sm={4}>Current episode</Col>
             <Col sm={2}>
               <FormControl type="text"
                            defaultValue={this.props.gameProgress.episode}
