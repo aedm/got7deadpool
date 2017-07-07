@@ -30,9 +30,19 @@
       background-color: #f5f5f5;
     }
     &:nth-child(2n+1) {
+      background-color: #fefefe;
       .votetable-row {
         background-color: #fefefe;
       }
+    }
+    border-bottom: 1px solid #ccc;
+
+    .votetable-comment {
+      margin: 0px 5px 5px;
+      background-color: #e0e0e7;
+      font-size: 12px;
+      padding: 2px 6px 4px;
+      font-style: italic;
     }
   }
 
@@ -41,8 +51,8 @@
     z-index: 2;
     display: flex;
     align-items: center;
-    height: @votetable-name-cell-height;
-    border-bottom: 1px solid #ccc;
+    min-height: @votetable-name-cell-height;
+    padding: 2px 0;
 
     // Number of votes
     .votetable-count {
@@ -83,6 +93,29 @@
       text-align: left;
       padding: 0 0 0 @votetable-padding;
       flex-grow: 1;
+
+      .votetable-status {
+        font-size: 11px;
+        border-radius: 2px;
+        display: inline-block;
+        padding: 0px 5px 1px;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-bottom: 3px;
+      }
+
+      .votetable-alive {
+        border: 1px solid #8fe187;
+        background-color: #e1f5db;
+        color: #588856;
+      }
+
+      .votetable-dead {
+        border: 1px solid #c8828e;
+        background-color: #e5cdcf;
+        color: #6c262b;
+      }
+
     }
 
     .votetable-checkbox-cell {

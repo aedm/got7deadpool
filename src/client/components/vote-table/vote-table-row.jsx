@@ -4,31 +4,51 @@ import React from 'react';
 import {CountLabel} from '/src/client/components/vote-table/count-label.jsx';
 import {FriendsList} from '/src/client/components/vote-table/friends-list.jsx';
 import {ShowBet} from '/src/client/components/vote-table/show-bet.jsx';
+import {Logger} from "/src/lib/logger.js";
 
 
 export class VoteTableRow extends React.Component {
   shouldComponentUpdate(nextProps) {
+    let prevComment = this.props.status ? this.props.status.comment : null;
+    let nextComment = nextProps.status ? nextProps.status.comment : null;
+    let prevVote = this.props.player ? this.props.player.vote : null;
+    let nextVote = nextProps.player ? nextProps.player.vote : null;
+    let prevEpisode = this.props.status ? this.props.status.episode : null;
+    let nextEpisode = nextProps.status ? nextProps.status.episode : null;
+
+    Logger.debug(prevComment, nextComment);
     return nextProps.voteCount !== this.props.voteCount ||
-        nextProps.maxVoteCount !== this.props.maxVoteCount ||
-        nextProps.player.vote !== this.props.player.vote ||
-        nextProps.votingPlayers.length !== this.props.votingPlayers.length ||
-        !nextProps.votingPlayers.every((x, i) => x === this.props.votingPlayers[i]);
+      nextProps.maxVoteCount !== this.props.maxVoteCount ||
+      nextVote !== prevVote ||
+      nextProps.votingPlayers.length !== this.props.votingPlayers.length ||
+      !nextProps.votingPlayers.every((x, i) => x === this.props.votingPlayers[i]) ||
+      prevComment !== nextComment ||
+      prevEpisode !== nextEpisode;
   }
 
   handleToggle(newVote) {
     setTimeout(() => Meteor.call("player/bet", this.props.bet.token, newVote), 0);
   }
 
+  renderStatus() {
+    if (!this.props.status || !this.props.status.comment) return null;
+    return <div className="votetable-comment">
+      {this.props.status.comment}
+    </div>;
+  }
+
   render() {
     return <div className="votetable-vote" key={this.props.token}>
       { !this.props.player ? null :
-          <FriendsList player={this.props.player} votingPlayers={this.props.votingPlayers}
-                       user={this.props.user}/> }
+        <FriendsList player={this.props.player} votingPlayers={this.props.votingPlayers}
+                     user={this.props.user}/> }
       <div className="votetable-row">
         <CountLabel voteCount={this.props.voteCount} maxVoteCount={this.props.maxVoteCount}/>
         <ShowBet handleToggle={this.handleToggle.bind(this)} bet={this.props.bet}
-                 player={this.props.player} showAvatar={this.props.showAvatar}/>
+                 player={this.props.player} showAvatar={this.props.showAvatar}
+                 showStatus={true} status={this.props.status}/>
       </div>
+      { this.renderStatus() }
     </div>;
   }
 }
@@ -54,4 +74,10 @@ VoteTableRow.propTypes = {
 
   // Should show avatar
   showAvatar: React.PropTypes.bool,
+
+  // Status
+  status: React.PropTypes.shape({
+    episode: React.PropTypes.number,
+    comment: React.PropTypes.string,
+  }),
 };

@@ -5,11 +5,11 @@ import {Button} from 'react-bootstrap';
 
 import {Players} from '/src/collections/players.js';
 import {
-    OnePointCharacters,
-    TwoPointCharacters,
-    ThreePointCharacters,
-    TwoPointEvents,
-    Bets
+  OnePointCharacters,
+  TwoPointCharacters,
+  ThreePointCharacters,
+  TwoPointEvents,
+  Bets
 } from '/src/game/bets.js';
 import {AppState} from '/src/collections/app-state.js';
 import {VoteTableRow} from '/src/client/components/vote-table/vote-table-row.jsx';
@@ -72,10 +72,12 @@ class _VoteTable extends React.Component {
 
   renderBetArray(array, showAvatar) {
     return <div className="votetable">
-      { array.map(bet =>
-          <VoteTableRow key={bet.token} showAvatar={showAvatar}
-                        user={this.props.user} {...this.state.rows[bet.token]}/>)
-      }
+      { array.map(bet => {
+        let token = bet.token;
+        let status = this.props.gameProgress ? this.props.gameProgress.deadPool[token] : null;
+        return <VoteTableRow key={token} showAvatar={showAvatar} status={status}
+                             user={this.props.user} {...this.state.rows[token]}/>;
+      })}
     </div>;
   }
 
@@ -145,6 +147,7 @@ _VoteTable.propTypes = {
   userId: React.PropTypes.string,
   players: React.PropTypes.array,
   currentPlayer: React.PropTypes.object,
+  gameProgress: React.PropTypes.object,
   voteCounts: React.PropTypes.object,
 };
 
@@ -160,6 +163,7 @@ export const VoteTable = createContainer(() => {
     isLoggingIn: Meteor.loggingIn(),
     players: Players.find(playerSelector, {sort: {registrationTime: -1}}).fetch(),
     currentPlayer: userId ? Players.findOne(userId) : null,
+    gameProgress: AppState.findOne("gameProgress"),
     voteCounts,
   };
 }, _VoteTable);
