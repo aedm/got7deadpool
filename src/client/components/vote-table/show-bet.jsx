@@ -21,7 +21,8 @@ export class ShowBet extends React.Component {
     let prevEpisode = this.props.status ? this.props.status.episode : null;
     let nextEpisode = nextProps.status ? nextProps.status.episode : null;
     return nextState.vote !== this.state.vote ||
-      prevEpisode !== nextEpisode;
+      prevEpisode !== nextEpisode ||
+      this.props.isVotingClosed !== nextProps.isVotingClosed;
   }
 
   handleToggle() {
@@ -39,9 +40,9 @@ export class ShowBet extends React.Component {
       {this.props.bet.name}<br />
       { isAlive ?
         <div className="votetable-status votetable-alive">
-          {this.props.showAvatar ? "Alive" : "Not yet"}
+          {this.props.showAvatar ? "Alive" : "Nope"}
         </div>
-          :
+        :
         <div className="votetable-status votetable-dead">
           {(this.props.showAvatar ? "Died in episode " : "In episode ") + this.props.status.episode}
         </div>
@@ -52,9 +53,24 @@ export class ShowBet extends React.Component {
   render() {
     let voteCheckbox = null;
     if (this.props.player) {
-      voteCheckbox = <div className="votetable-checkbox-cell">
-        <CustomCheckbox checked={this.state.vote} onChange={() => this.handleToggle()}/>
-      </div>;
+      if (this.props.isVotingClosed) {
+        // Calculate score
+        let multiplier = this.props.bet.points;
+        let vote = this.state.vote;
+        let isAlive = !this.props.status || !this.props.status.episode;
+        let score = multiplier * (isAlive ? (vote ? 0 : 1) : (vote ? 2 : -1));
+        voteCheckbox = <div className="votetable-checkbox-cell">
+          <CustomCheckbox checked={this.state.vote} disabled={true}/>
+          { score >= 0
+            ? <div className="votetable-score votetable-score-positive">+{score}</div>
+            : <div className="votetable-score votetable-score-negative">{score}</div>
+          }
+        </div>;
+      } else {
+        voteCheckbox = <div className="votetable-checkbox-cell">
+          <CustomCheckbox checked={this.state.vote} onChange={() => this.handleToggle()}/>
+        </div>;
+      }
     }
 
     let avatar = null;
@@ -96,4 +112,7 @@ ShowBet.propTypes = {
     episode: React.PropTypes.number,
     comment: React.PropTypes.string,
   }),
+
+  // Is voting closed?
+  isVotingClosed: React.PropTypes.bool,
 };

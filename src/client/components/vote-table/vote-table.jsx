@@ -74,9 +74,10 @@ class _VoteTable extends React.Component {
     return <div className="votetable">
       { array.map(bet => {
         let token = bet.token;
-        let status = this.props.gameProgress ? this.props.gameProgress.deadPool[token] : null;
+        let status = this.props.gameProgress.deadPool[token];
         return <VoteTableRow key={token} showAvatar={showAvatar} status={status}
-                             user={this.props.user} {...this.state.rows[token]}/>;
+                             user={this.props.user} {...this.state.rows[token]}
+                             isVotingClosed={this.props.gameProgress.isVotingClosed} />;
       })}
     </div>;
   }
@@ -130,7 +131,7 @@ class _VoteTable extends React.Component {
   render() {
     if (this.props.isLoggingIn) return null;
 
-    if (!this.props.subReady) {
+    if (!this.props.subReady || !this.props.gameProgress) {
       return <div className="login">
         <Button disabled>Loading...</Button>
       </div>;

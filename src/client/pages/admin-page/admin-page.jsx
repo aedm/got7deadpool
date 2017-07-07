@@ -1,7 +1,17 @@
 import {Meteor} from "meteor/meteor";
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
-import {Form, Col, Row, Button, FormGroup, FormControl, ControlLabel, Alert} from 'react-bootstrap';
+import {
+  Form,
+  Col,
+  Row,
+  Button,
+  FormGroup,
+  FormControl,
+  ControlLabel,
+  Alert,
+  Checkbox
+} from 'react-bootstrap';
 
 import {Logger} from "/src/lib/logger.js";
 import {SubmitWithState} from "/src/lib/submit.js";
@@ -52,9 +62,14 @@ class _AdminPage extends React.Component {
       return;
     }
 
-    Logger.debug("episode", episode);
-    Logger.debug("deadpool", deadpool);
-    SubmitWithState(this, "admin/updateGameState", {episode, deadpool});
+    let isVotingClosed = this.isVotingClosed.checked;
+    let isSeasonOver = this.isSeasonOver.checked;
+    SubmitWithState(this, "admin/updateGameState", {
+      episode,
+      deadpool,
+      isVotingClosed,
+      isSeasonOver,
+    });
   }
 
   renderBetArray(array) {
@@ -98,6 +113,20 @@ class _AdminPage extends React.Component {
       <div className="game-page admin-page">
         <h2>You must be this tall to die</h2>
         <Form horizontal>
+          <FormGroup>
+            <Col componentClass={ControlLabel} sm={4}>Voting closed</Col>
+            <Col sm={2}>
+              <Checkbox defaultChecked={!!this.props.gameProgress.isVotingClosed}
+                        inputRef={x => this.isVotingClosed = x}/>
+            </Col>
+          </FormGroup>
+          <FormGroup>
+            <Col componentClass={ControlLabel} sm={4}>Season over</Col>
+            <Col sm={2}>
+              <Checkbox defaultChecked={!!this.props.gameProgress.isSeasonOver}
+                        inputRef={x => this.isSeasonOver = x}/>
+            </Col>
+          </FormGroup>
           <FormGroup>
             <Col componentClass={ControlLabel} sm={4}>Current episode</Col>
             <Col sm={2}>

@@ -87,8 +87,10 @@ export const Calculator = {
    *
    * @param episode Number last episode
    * @param deadPool Object {token: episode Number} episodes in which events occured
+   * @param isVotingClosed
+   * @param isSeasonOver
    */
-  updateGameState(episode, deadPool) {
+  updateGameState(episode, deadPool, isVotingClosed, isSeasonOver) {
     check(episode, Number);
     check(deadPool, Object);
 
@@ -100,6 +102,8 @@ export const Calculator = {
     AppState.update("gameProgress", {
       episode,
       deadPool,
+      isVotingClosed,
+      isSeasonOver,
     });
   }
 };

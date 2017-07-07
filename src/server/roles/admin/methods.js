@@ -33,11 +33,14 @@ adminMethod("admin/countVotes", function() {
 adminMethod("admin/updateGameState", function(params) {
   check(params.episode, Number);
   check(params.deadpool, Object);
+  check(params.isVotingClosed, Boolean);
+  check(params.isSeasonOver, Boolean);
   Object.keys(params.deadpool).forEach(key => {
     check(params.deadpool[key].episode, Match.Maybe(Number));
     check(params.deadpool[key].comment, Match.Maybe(String));
   });
 
-  Calculator.updateGameState(params.episode, params.deadpool);
+  Calculator.updateGameState(params.episode, params.deadpool, params.isVotingClosed,
+    params.isSeasonOver);
 });
 

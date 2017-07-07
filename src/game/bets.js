@@ -155,7 +155,7 @@ export const TwoPointCharacters = [
   },
   {
     token: "me",
-    points: 1,
+    points: 2,
     name: "Melisandre",
   },
   {

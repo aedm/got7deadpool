@@ -7,6 +7,10 @@ Meteor.startup(function() {
   AppState.upsert("gameProgress",
     {
       $setOnInsert: {
+        // Indicates whether game has started
+        isVotingClosed: false,
+        isSeasonOver: false,
+
         // Game progress. Shows the last aired episode.
         episode: 0,
 
