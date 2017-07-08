@@ -131,7 +131,7 @@ class _VoteTable extends React.Component {
   render() {
     if (this.props.isLoggingIn) return null;
 
-    if (!this.props.subReady || !this.props.gameProgress) {
+    if (!this.props.friendSubReady || !this.props.gameProgress) {
       return <div className="login">
         <Button disabled>Loading...</Button>
       </div>;
@@ -150,16 +150,15 @@ _VoteTable.propTypes = {
   currentPlayer: React.PropTypes.object,
   gameProgress: React.PropTypes.object,
   voteCounts: React.PropTypes.object,
+  friendSubReady: React.PropTypes.bool.isRequired,
 };
 
 export const VoteTable = createContainer(() => {
-  let sub = Meteor.subscribe("player/sub/friends");
   let userId = Meteor.userId();
   let playerSelector = userId ? {_id: {$ne: userId}} : {};
   let voteCounts = AppState.findOne("voteCount");
 
   return {
-    subReady: sub.ready(),
     user: Meteor.user(),
     isLoggingIn: Meteor.loggingIn(),
     players: Players.find(playerSelector, {sort: {registrationTime: -1}}).fetch(),

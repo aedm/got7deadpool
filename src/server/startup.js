@@ -17,6 +17,9 @@ Meteor.startup(function() {
         // List of dead characters and occurred events.
         // Map of {character_token: {episode: Number, comment: String}}
         deadPool: {},
+
+        // Sum of all players
+        playerCount: 0,
       }
     }
   );

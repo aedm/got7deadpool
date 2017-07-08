@@ -51,13 +51,14 @@ export class _GamePage extends React.Component {
       <div className="login">
         { this.renderLoginButton() }
       </div>
-      <VoteTable/>
+      <VoteTable friendSubReady={this.props.friendSubReady} />
     </div>;
   }
 }
 
 _GamePage.propTypes = {
   user: React.PropTypes.object,
+  friendSubReady: React.PropTypes.bool.isRequired,
 };
 
 export const GamePage = createContainer(() => {

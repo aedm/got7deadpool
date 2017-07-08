@@ -104,6 +104,7 @@ export const Calculator = {
       deadPool,
       isVotingClosed,
       isSeasonOver,
+      playerCount: players.length,
     });
   }
 };

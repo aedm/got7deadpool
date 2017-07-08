@@ -71,7 +71,7 @@ let defineAdminRoute = (label, page) => {
 
 allRoutes.route('/', {
   action() {
-    mount(App, {content: () => (<GamePage />)});
+    mount(App, {content: (subReady) => (<GamePage friendSubReady={subReady}/>)});
   }
 });
 

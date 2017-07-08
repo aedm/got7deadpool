@@ -30,7 +30,7 @@ class App_ extends React.Component {
     return <div>
       <Header selectedHeaderPage={this.props.selectedHeaderPage}/>
       <div className="game-title">Season 7 Dead Pool</div>
-      { this.props.content() }
+      { this.props.content(this.props.subReady) }
     </div>;
   }
 }
@@ -40,7 +40,10 @@ App_.propTypes = {
 };
 
 export const App = createContainer(() => {
+  let sub = Meteor.subscribe("player/sub/friends");
+
   return {
+    subReady: sub.ready(),
     user: Meteor.user(),
     isLoggingIn: Meteor.loggingIn(),
   };

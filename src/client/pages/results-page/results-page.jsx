@@ -1,11 +1,15 @@
 import React from 'react';
+import {createContainer} from 'meteor/react-meteor-data';
 
-export class ResultsPage extends React.Component {
+import {Players} from '/src/collections/players.js';
+import {AppState} from '/src/collections/app-state.js';
+
+class _ResultsPage extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  render() {
+  renderBeforeSeason() {
     return <div className="container">
       <div className="game-page">
         <h2>Results</h2>
@@ -14,4 +18,46 @@ export class ResultsPage extends React.Component {
       </div>
     </div>;
   }
+
+  render() {
+    if (!this.props.gameProgress || !this.props.gameProgress.isVotingClosed) {
+      return this.renderBeforeSeason();
+    }
+
+    let resultsLabel = this.props.gameProgress.episode === 0
+      ? <h2>Scores before the first episode</h2>
+      : <h2>Scores after episode {this.props.gameProgress.episode}</h2>;
+
+    return <div className="container">
+      <div className="game-page">
+        { resultsLabel }
+        <p className="results-info">This page lists your Facebook friends only.
+          There are {this.props.gameProgress.playerCount} players in this game.</p>
+        { this.props.players.map(player => {
+          let score = player.scores[this.props.gameProgress.episode];
+          let selfClass = player._id === this.props.user._id ? "results-self" : "results-others";
+          return <div key={player._id} className={"results-item " + selfClass}>
+            {score.position}. {player.profile.name} ({score.score})
+          </div>;
+        })}
+      </div>
+    </div>;
+
+  }
 }
+
+
+export const ResultsPage = createContainer(() => {
+  let gameProgress = AppState.findOne("gameProgress");
+  let players = null;
+  if (!!gameProgress && +gameProgress.isVotingClosed) {
+    let selector = `scores.${gameProgress.episode}.position`;
+    players = Players.find({}, {sort: {[selector]: 1}}).fetch();
+  }
+
+  return {
+    user: Meteor.user(),
+    players,
+    gameProgress,
+  };
+}, _ResultsPage);
