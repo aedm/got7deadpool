@@ -72,7 +72,7 @@ export const Calculator = {
 
     // Rank players
     for (let ep = 0; ep <= episode; ep++) {
-      players.sort((a, b) => a.scores[ep].score < b.scores[ep].score);
+      players.sort((a, b) => b.scores[ep].score - a.scores[ep].score);
       for (let i = 0; i < players.length; i++) {
         let position = (i > 0 && players[i - 1].scores[ep].score === players[i].scores[ep].score)
           ? players[i - 1].scores[ep].position

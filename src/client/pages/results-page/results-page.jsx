@@ -37,7 +37,7 @@ class _ResultsPage extends React.Component {
           let score = player.scores[this.props.gameProgress.episode];
           let selfClass = player._id === this.props.user._id ? "results-self" : "results-others";
           return <div key={player._id} className={"results-item " + selfClass}>
-            {score.position}. {player.profile.name} ({score.score})
+            {score.position + 1}. {player.profile.name} ({score.score})
           </div>;
         })}
       </div>
