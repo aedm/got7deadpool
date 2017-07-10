@@ -4,27 +4,34 @@ import {Button} from 'react-bootstrap';
 
 import {WelcomeScreen} from '/src/client/pages/welcome-screen/welcome-screen.jsx';
 import {Header} from '/src/client/components/header/header.jsx';
+import {AppState} from '/src/collections/app-state.js';
 
 class App_ extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {welcomeScreen: !this.props.user};
+    this.state = {
+      welcomeScreen: true,
+    };
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.user) this.setState({welcomeScreen: false});
+    if (newProps.user && newProps.gameProgress &&
+      (!newProps.gameProgress.isVotingClosed || newProps.gameProgress.episode === 0)) {
+      this.setState({welcomeScreen: false});
+    }
   }
 
 
   render() {
-    if (this.props.isLoggingIn) {
+    if (this.props.isLoggingIn || !this.props.gameProgress) {
       return <div className="login">
         <Button disabled>Loading...</Button>
       </div>;
     }
 
     if (this.state.welcomeScreen) {
-      return <WelcomeScreen onClose={() => this.setState({welcomeScreen: false}) }/>;
+      return <WelcomeScreen onClose={() => this.setState({welcomeScreen: false}) }
+                            gameProgress={this.props.gameProgress}/>;
     }
 
     return <div>
@@ -46,5 +53,6 @@ export const App = createContainer(() => {
     subReady: sub.ready(),
     user: Meteor.user(),
     isLoggingIn: Meteor.loggingIn(),
+    gameProgress: AppState.findOne("gameProgress"),
   };
 }, App_);

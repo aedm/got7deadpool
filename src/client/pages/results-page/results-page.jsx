@@ -33,13 +33,16 @@ class _ResultsPage extends React.Component {
         { resultsLabel }
         <p className="results-info">This page lists your Facebook friends only.
           There are {this.props.gameProgress.playerCount} players in this game.</p>
-        { this.props.players.map(player => {
-          let score = player.scores[this.props.gameProgress.episode];
-          let selfClass = player._id === this.props.user._id ? "results-self" : "results-others";
-          return <div key={player._id} className={"results-item " + selfClass}>
-            {score.position + 1}. {player.profile.name} ({score.score})
-          </div>;
-        })}
+        <div className="results-list">
+          { this.props.players.map(player => {
+            let score = player.scores[this.props.gameProgress.episode];
+            let selfClass = player._id === this.props.user._id ? "results-self" : "results-others";
+            return <div key={player._id} className={"results-item " + selfClass}>
+              <span className="results-position">{score.position + 1}.</span>
+              {player.profile.name} ({score.score})
+            </div>;
+          })}
+        </div>
       </div>
     </div>;
 
