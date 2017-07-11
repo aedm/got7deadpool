@@ -1,3 +1,4 @@
+import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import {Button} from 'react-bootstrap';
@@ -5,6 +6,8 @@ import {Button} from 'react-bootstrap';
 import {VoteTable} from '/src/client/components/vote-table/vote-table.jsx';
 import {Helpers} from '/src/client/helpers.js';
 import {RuleTable} from '/src/client/components/vote-table/rule-table.jsx';
+import {AppState} from '/src/collections/app-state.js';
+import {Players} from '/src/collections/players.js';
 
 export class _GamePage extends React.Component {
   renderLoginButton() {
@@ -22,19 +25,37 @@ export class _GamePage extends React.Component {
     }
   }
 
+  renderGameState() {
+    if (!this.props.gameProgress.isVotingClosed || !this.props.user) {
+      return <div className="gameinfo-box">
+        <h2>What's this game about?</h2>
+        <p>Predict who dies in season 7 of Game of Thrones
+          and compete against others.</p>
+        <p>Voting is closed right before the season starts. Scores get updated after each
+          episode. Your predictions are public.</p>
+        <p>It's for free and you can't win anything.</p>
+        <p>This is a fan-made website, I have no affiliation with HBO, everything here is the
+          property of their respective owners.</p>
+      </div>;
+    }
+
+    let episodeMessage = (this.props.gameProgress.episode === 0)
+      ? "before season 7" : `after episode ${this.props.gameProgress.episode}`;
+
+    return <div className="gameinfo-box">
+      <h2>The game is on</h2>
+      { !!this.props.player ? <p>Voting is closed.</p> :
+        <p>Unfortunately, you can't vote since you registered after voting was closed.
+          But you can see your Facebook friends' scores in the results section,
+          and I'll send you an invite for season 8 in time.</p>}
+      <p>Last updated: {episodeMessage}.</p>
+    </div>;
+  }
+
   renderRules() {
     return <div className="container">
       <div className="gameinfo">
-        <div className="gameinfo-box">
-          <h2>What's this game about?</h2>
-          <p>Predict who dies in season 7 of Game of Thrones
-            and compete against others.</p>
-          <p>Voting is closed right before the season starts. Scores get updated after each
-            episode. Your predictions are public.</p>
-          <p>It's for free and you can't win anything.</p>
-          <p>This is a fan-made website, I have no affiliation with HBO, everything here is the
-            property of their respective owners.</p>
-        </div>
+        { this.renderGameState() }
         <div className="gameinfo-box">
           <h2>Scoring</h2>
           <p>You'll get points for your predictions, according to the chart below.
@@ -51,7 +72,7 @@ export class _GamePage extends React.Component {
       <div className="login">
         { this.renderLoginButton() }
       </div>
-      <VoteTable friendSubReady={this.props.friendSubReady} />
+      <VoteTable friendSubReady={this.props.friendSubReady}/>
     </div>;
   }
 }
@@ -65,5 +86,7 @@ export const GamePage = createContainer(() => {
   return {
     user: Meteor.user(),
     isLoggingIn: Meteor.loggingIn(),
+    gameProgress: AppState.findOne("gameProgress"),
+    player: Players.findOne(Meteor.userId()),
   };
 }, _GamePage);

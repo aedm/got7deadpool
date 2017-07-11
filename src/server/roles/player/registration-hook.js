@@ -1,7 +1,9 @@
 import {Meteor} from 'meteor/meteor';
 import fbgraph from 'fbgraph';
 
+import {Logger} from "/src/lib/logger.js";
 import {Players} from '/src/collections/players.js';
+import {AppState} from '/src/collections/app-state.js';
 
 
 // Exported for testing
@@ -19,15 +21,19 @@ export const onCreateUser = function(options, user) {
     profile.name = options.username;
   }
 
-  // Create a player object when registering
-  let player = {
-    _id: user._id,
-    profile,
-    registrationTime: new Date(),
-    votes: [],
-    scores: [],
-  };
-  Players.insert(player, {filter: false});
+  let gameProgress = AppState.findOne("gameProgress");
+  if (!!gameProgress && !gameProgress.isVotingClosed) {
+    // Voting is not closed yet, create a player object
+    Logger.log(`Creating a player object for ${profile.name}`);
+    let player = {
+      _id: user._id,
+      profile,
+      registrationTime: new Date(),
+      votes: [],
+      scores: [],
+    };
+    Players.insert(player, {filter: false});
+  }
 
   // Store profile in user object, too
   profile.friendIds = [];

@@ -31,18 +31,30 @@ class _ResultsPage extends React.Component {
     return <div className="container">
       <div className="game-page">
         { resultsLabel }
-        <p className="results-info">This page lists your Facebook friends only.
-          There are {this.props.gameProgress.playerCount} players in this game.</p>
-        <div className="results-list">
-          { this.props.players.map(player => {
-            let score = player.scores[this.props.gameProgress.episode];
-            let selfClass = player._id === this.props.user._id ? "results-self" : "results-others";
-            return <div key={player._id} className={"results-item " + selfClass}>
-              <span className="results-position">{score.position + 1}.</span>
-              {player.profile.name} ({score.score})
-            </div>;
-          })}
-        </div>
+        { this.props.players.length === 0 ?
+          <p className="results-info">
+            There are {this.props.gameProgress.playerCount} players in this game.
+            But you have no Facebook friends who participated in this game,
+            so we can't show anyone's score to you. :(
+          </p>
+          :
+          <div>
+            <p className="results-info">
+              There are {this.props.gameProgress.playerCount} players in this game.
+              This page lists only your Facebook friends who participated.
+            </p>
+            <div className="results-list">
+              { this.props.players.map(player => {
+                let score = player.scores[this.props.gameProgress.episode];
+                let selfClass = player._id === this.props.user._id ? "results-self" : "results-others";
+                return <div key={player._id} className={"results-item " + selfClass}>
+                  <span className="results-position">{score.position + 1}.</span>
+                  {player.profile.name} ({score.score})
+                </div>;
+              })}
+            </div>
+          </div>
+        }
       </div>
     </div>;
 
