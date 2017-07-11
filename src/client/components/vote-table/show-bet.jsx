@@ -31,22 +31,26 @@ export class ShowBet extends React.Component {
     this.props.handleToggle(newVote);
   }
 
+  renderAliveLabel() {
+    if (!this.props.isVotingClosed) return null;
+    let isAlive = !this.props.status || !this.props.status.episode;
+    return isAlive ?
+      <div className="votetable-status votetable-alive">
+        {this.props.showAvatar ? "Alive" : "Nope"}
+      </div>
+      :
+      <div className="votetable-status votetable-dead">
+        {(this.props.showAvatar ? "Died in episode " : "In episode ") + this.props.status.episode}
+      </div>;
+  }
+
   renderNameAndStatus() {
     if (!this.props.showStatus) {
       return <div className="votetable-name">{this.props.bet.name}</div>;
     }
-    let isAlive = !this.props.status || !this.props.status.episode;
     return <div className="votetable-name">
       {this.props.bet.name}<br />
-      { isAlive ?
-        <div className="votetable-status votetable-alive">
-          {this.props.showAvatar ? "Alive" : "Nope"}
-        </div>
-        :
-        <div className="votetable-status votetable-dead">
-          {(this.props.showAvatar ? "Died in episode " : "In episode ") + this.props.status.episode}
-        </div>
-      }
+      { this.renderAliveLabel() }
     </div>;
   }
 
