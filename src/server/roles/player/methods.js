@@ -31,7 +31,7 @@ userMethod("player/bet", function(betToken, bet) {
   check(bet, Boolean);
 
   let gameProgress = AppState.findOne("gameProgress");
-  if (!!gameProgress && gameProgress.isVotingClosed) throw new Meteor.Error("Voting is closed");
+  if (!gameProgress || gameProgress.isVotingClosed) throw new Meteor.Error("Voting is closed");
 
   if (bet) {
     let affectedCount = Players.update(

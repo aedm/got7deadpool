@@ -6,6 +6,7 @@ import {resetDatabase} from 'meteor/xolvio:cleaner';
 import '/src/server/roles/player/methods.js';
 import {Players} from '/src/collections/players.js';
 import {AppState} from '/src/collections/app-state.js';
+import {initializeAppState} from "/src/server/collections/app-state.js";
 
 describe('placing bets', function () {
   let fakeUser = {
@@ -18,6 +19,7 @@ describe('placing bets', function () {
 
   beforeEach(function () {
     resetDatabase();
+    initializeAppState();
     stubs.create('fakeUserId', Meteor, 'userId').returns(fakeUser._id);
     stubs.create('fakeUser', Meteor, 'user').returns(fakeUser);
 
@@ -68,7 +70,6 @@ describe('placing bets', function () {
   });
 
   it('can summarize votes', function () {
-    AppState.insert({_id: "voteCount", "cersei": 0});
     for (let i=0; i<5; i++) {
       Meteor.call("player/bet", "cersei", true);
       Meteor.call("player/bet", "cersei", true);

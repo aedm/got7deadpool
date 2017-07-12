@@ -7,6 +7,7 @@ import fbgraph from 'fbgraph';
 import '/src/server/roles/player/methods.js';
 import {Players} from '/src/collections/players.js';
 import {onCreateUser, onLogin} from '/src/server/roles/player/registration-hook.js';
+import {initializeAppState} from "/src/server/collections/app-state.js";
 
 
 describe('facebook integration', function () {
@@ -61,6 +62,7 @@ describe('facebook integration', function () {
 
   beforeEach(function () {
     resetDatabase();
+    initializeAppState();
   });
 
   afterEach(function () {

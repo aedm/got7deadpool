@@ -30,6 +30,7 @@ adminMethod("admin/countVotes", function() {
   Calculator.countVotes();
 });
 
+
 adminMethod("admin/updateGameState", function(params) {
   check(params.episode, Number);
   check(params.deadpool, Object);
