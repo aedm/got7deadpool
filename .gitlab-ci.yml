@@ -22,7 +22,7 @@ build_docker_image:
   services:
   - docker:dind
   variables:
-    DOCKER_DRIVER: aufs
+    DOCKER_DRIVER: overlay
   stage: build
   script:
   - docker info
