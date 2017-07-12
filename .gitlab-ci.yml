@@ -21,8 +21,6 @@ build_docker_image:
   image: docker
   services:
   - docker:dind
-  variables:
-    DOCKER_DRIVER: devicemapper
   stage: build
   script:
   - docker info
