@@ -22,7 +22,7 @@ build_docker_image:
   services:
   - docker:dind
   variables:
-    DOCKER_DRIVER: overlay2
+    DOCKER_DRIVER: devicemapper
   stage: build
   script:
   - docker info
