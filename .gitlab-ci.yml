@@ -20,7 +20,9 @@ meteor_tests:
 build_docker_image:
   image: docker
   services:
-  - docker:dind --storage-driver=aufs
+  - docker:dind
+  variables:
+  - DOCKER_DRIVER: aufs
   stage: build
   script:
   - docker info
