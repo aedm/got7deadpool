@@ -18,9 +18,9 @@ meteor_tests:
   - release
 
 build_docker_image:
-  image: docker
+  image: docker:17.05.0-ce
   services:
-  - docker:dind
+  - docker:17.05.0-ce-dind
   stage: build
   script:
   - docker info
