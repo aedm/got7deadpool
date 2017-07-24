@@ -45,23 +45,23 @@ export const onCreateUser = function(options, user) {
 
 // Exported for testing
 export const onLogin = function(attempt) {
+  Logger.debug("Login:", (attempt.user && attempt.user.profile) ? attempt.user.profile.name : "");
   let user = attempt.user;
 
   if (user.services.facebook) {
     let facebookId = user.services.facebook.id;
 
-    fbgraph.setAccessToken(user.services.facebook.accessToken).get(facebookId,
-      {fields: "friends,name"},
+    let graphApi = fbgraph.setAccessToken(user.services.facebook.accessToken);
+
+    graphApi.get(`${facebookId}/friends`, {limit: 5000},
       Meteor.bindEnvironment((err, result) => {
         if (err) {
           console.error(`Facebook access error for userid:${user.services.facebook.id}:\n${err}`);
           return;
         }
 
-        let name = result.name;
-
         // Facebook ids of friends
-        let friendFacebookIds = result.friends ? result.friends.data.map(x => x.id) : [];
+        let friendFacebookIds = result.data ? result.data.map(x => x.id) : [];
 
         // MongoDB ids of friends
         let friendIds = Meteor.users.find({
@@ -72,16 +72,7 @@ export const onLogin = function(attempt) {
 
         // Update user name and friends list
         Meteor.users.update(user._id, {
-          $set: {
-            "profile.name": name,
-            "profile.friendIds": friendIds,
-          }
-        }, {
-          filter: false
-        });
-
-        Players.update(user._id, {
-          $set: {"profile.name": name},
+          $set: {"profile.friendIds": friendIds}
         }, {
           filter: false
         });
@@ -106,6 +97,31 @@ export const onLogin = function(attempt) {
           filter: false
         });
       }));
+
+    // Update user name
+    graphApi.get(facebookId,
+        {fields: "name"},
+        Meteor.bindEnvironment((err, result) => {
+          if (err) {
+            console.error(`Facebook access error for userid:${user.services.facebook.id}:\n${err}`);
+            return;
+          }
+
+          let name = result.name;
+
+          // Update user name and friends list
+          Meteor.users.update(user._id, {
+            $set: {"profile.name": name}
+          }, {
+            filter: false
+          });
+
+          Players.update(user._id, {
+            $set: {"profile.name": name},
+          }, {
+            filter: false
+          });
+        }));
   }
 };
 
