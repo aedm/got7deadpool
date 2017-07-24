@@ -38,14 +38,18 @@ describe('facebook integration', function () {
     let user = users[index];
     stubs.create('fakeFacebookToken', fbgraph, "setAccessToken").returns(fbgraph);
     stubs.create('fakeFacebookProfile', fbgraph, "get", function (fbid, fields, callback) {
-      let result = {
-        name: user.profile.name,
-        friends: {
+      let result = null;
+      if (fields.fields === "name") {
+        result = {
+          name: user.profile.name,
+        };
+      } else if (fbid.endsWith("friends")) {
+        result = {
           data: friends.map(id => {
             return {id};
           }),
-        },
-      };
+        };
+      }
       callback(null, result);
     });
     onLogin({user});
