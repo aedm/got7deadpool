@@ -106,7 +106,7 @@ export const TwoPointCharacters = [
   {
     token: "ag",
     points: 2,
-    name: "Asha Greyjoy",
+    name: "Yara Greyjoy",
   },
   {
     token: "eg",
