@@ -19,19 +19,36 @@ export class _GamePage extends React.Component {
     else if (!this.props.user) {
       return <div className="login-button text-center">
         <Button bsStyle="primary" onClick={() => Helpers.facebookLogin()}>
-          Log in with Facebook to participate
+          Log in with Facebook
         </Button>
       </div>;
     }
   }
 
   renderGameState() {
+    let resultsURL = FlowRouter.path("results");
+    if (this.props.gameProgress.isSeasonOver) {
+      return <div className="gameinfo-box">
+        <h2>Game over</h2>
+        <p>All episodes of season 7 have been aired.
+          {!!this.props.player ?
+            <span> See your final scores on the <a href={resultsURL}>results page</a>.</span> : ""}
+        </p>
+        <h2>What's going to happen in Season 8?</h2>
+        <p>We need new events to vote for in Season 8 Dead Pool! What do you think will happen?
+          Please leave your crazy predictions on
+          our <a href="https://www.facebook.com/gotdeadpool/">Facebook Page</a>, and your
+          suggestions might be part of the game next time. :)
+        </p>
+      </div>;
+    }
+
     if (!this.props.gameProgress.isVotingClosed || !this.props.user) {
       return <div className="gameinfo-box">
         <h2>What's this game about?</h2>
         <p>Predict who dies in season 7 of Game of Thrones
           and compete against others.</p>
-        <p>Voting is closed right before the season starts. Scores get updated after each
+        <p>Voting was closed right before the season started. Scores get updated after each
           episode. Your predictions are public.</p>
         <p>It's for free and you can't win anything.</p>
         <p>This is a fan-made website, I have no affiliation with HBO, everything here is the
@@ -44,7 +61,7 @@ export class _GamePage extends React.Component {
 
     return <div className="gameinfo-box">
       <h2>The game is on</h2>
-      { !!this.props.player ? <p>Voting is closed.</p> :
+      {!!this.props.player ? <p>Voting is closed.</p> :
         <p>Unfortunately, you can't vote since you registered after voting was closed.
           But you can see your Facebook friends' scores in the results section,
           and I'll send you an invite for season 8 in time.</p>}
@@ -55,12 +72,12 @@ export class _GamePage extends React.Component {
   renderRules() {
     return <div className="container">
       <div className="gameinfo">
-        { this.renderGameState() }
+        {this.renderGameState()}
         <div className="gameinfo-box">
           <h2>Scoring</h2>
           <p>You'll get points for your predictions, according to the chart below.
             See some <a href="/rules">examples</a>.</p>
-          <RuleTable />
+          <RuleTable/>
         </div>
       </div>
     </div>;
@@ -68,9 +85,9 @@ export class _GamePage extends React.Component {
 
   render() {
     return <div>
-      { this.renderRules() }
+      {this.renderRules()}
       <div className="login">
-        { this.renderLoginButton() }
+        {this.renderLoginButton()}
       </div>
       <VoteTable friendSubReady={this.props.friendSubReady}/>
     </div>;
